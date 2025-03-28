@@ -115,7 +115,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        print("Register butonuna basıldı!");
+                        Navigator.pushNamed(context, "/forgotPassword");
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue, // Yazı rengi

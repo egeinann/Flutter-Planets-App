@@ -84,7 +84,6 @@ class OnboardingPageLogin extends ConsumerWidget {
   TextButton register(BuildContext context) {
     return TextButton(
       onPressed: () {
-        print("Register butonuna basıldı!");
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.blue, // Yazı rengi

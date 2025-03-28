@@ -4,11 +4,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/models/planetContainerModel.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
-import 'package:spaceandplanets_app/view/app/planet_page.dart';
+import 'package:spaceandplanets_app/view/app/navigation/planets/planet_page.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class PlanetsPage extends StatelessWidget {
+  const PlanetsPage({super.key});
 
   static List<Planetcontainermodel> planetContainers = [
     Planetcontainermodel(
