@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
+import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/view/app/navigation/planets/planets_page.dart';
 import 'package:spaceandplanets_app/view/app/navigation/stars/stars_page.dart';
 import 'package:spaceandplanets_app/view/app/navigation/state/NavigationState.dart';
@@ -15,6 +16,23 @@ class HomePage extends ConsumerWidget {
     final currentIndex = ref.watch(navigationProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            SpaceIcons.back,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+        backgroundColor: SpaceColors.backgroundColor,
+        title: Text(
+          "Home",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        centerTitle: true,
+      ),
       body: IndexedStack(
         index: currentIndex,
         children: const [

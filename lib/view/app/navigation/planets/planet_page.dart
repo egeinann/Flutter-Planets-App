@@ -47,9 +47,31 @@ class PlanetPage extends StatelessWidget {
                       icon: const Icon(SpaceIcons.back),
                     ),
                   ),
-                  Text(
-                    planet.name,
-                    style: Theme.of(context).textTheme.headlineLarge,
+                  Expanded(
+                    child: Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        Text(
+                          planet.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .copyWith(
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 4
+                                  ..color =
+                                      planet.backgroundColor, // Kenarlık rengi
+                              ),
+                          textAlign: TextAlign.right,
+                        ),
+                        Text(
+                          planet.name,
+                          style: Theme.of(context).textTheme.headlineLarge,
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

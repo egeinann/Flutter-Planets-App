@@ -43,7 +43,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "Send e-mailee",
+                    "Send e-maile",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],

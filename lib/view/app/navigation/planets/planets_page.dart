@@ -65,29 +65,21 @@ class PlanetsPage extends StatelessWidget {
       backgroundColor: PlanetColors.saturnbackgroundColor,
       size: 20.h,
     ),
+    Planetcontainermodel(
+      name: "Neptune",
+      image: "assets/planets/neptune.png",
+      description: "The distant blue planet",
+      longDescription:
+          "Neptune, the farthest planet from the Sun, is a cold and mysterious world shrouded in deep blue clouds. Known for its intense winds, Neptune's atmosphere is a mix of hydrogen, helium, and methane, giving it its distinctive color. Its Great Dark Spot, a massive storm, was once thought to be a permanent feature, but it has since disappeared. With its five known rings and 14 moons, including Triton, Neptune remains one of the most intriguing planets in our Solar System.",
+      backgroundColor: PlanetColors.neptunebackgroundColor,
+      size: 20.h,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: SpaceColors.backgroundColor,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            SpaceIcons.back,
-            color: Theme.of(context).iconTheme.color,
-          ),
-        ),
-        backgroundColor: SpaceColors.backgroundColor,
-        title: Text(
-          "Home",
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        centerTitle: true,
-      ),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -190,13 +182,10 @@ class PlanetsPage extends StatelessWidget {
                           ),
                           Align(
                             alignment: Alignment.topCenter,
-                            child: Hero(
-                              tag: "planetImage${planetContainers[index].name}",
-                              child: Image.asset(
-                                planetContainers[index].image,
-                                fit: BoxFit.scaleDown,
-                                height: planetContainers[index].size,
-                              ),
+                            child: Image.asset(
+                              planetContainers[index].image,
+                              fit: BoxFit.scaleDown,
+                              height: planetContainers[index].size,
                             ),
                           ),
                         ],
@@ -216,15 +205,12 @@ class PlanetsPage extends StatelessWidget {
   }
 
   // *** METEOR ***
-  Hero meteors() {
-    return Hero(
-      tag: "meteor",
-      child: Center(
-        child: MeteorWidget(
-          duration: const Duration(seconds: 3),
-          numberOfMeteors: 100,
-          child: Container(),
-        ),
+  Widget meteors() {
+    return Center(
+      child: MeteorWidget(
+        duration: const Duration(seconds: 3),
+        numberOfMeteors: 100,
+        child: Container(),
       ),
     );
   }
