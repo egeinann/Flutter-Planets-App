@@ -155,7 +155,7 @@ class OnboardingPageLogin extends ConsumerWidget {
           ),
           const SizedBox(width: 10),
           Text(
-            "Login with Google",
+            "Login with Googlee",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],
