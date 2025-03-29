@@ -77,14 +77,14 @@ class _SpaceTextFieldState extends State<SpaceTextField> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
-              color: SpaceColors.firstColor,
+              color: SpaceColors.secondaryColor,
               width: 3,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
-              color: SpaceColors.secondaryColor,
+              color: SpaceColors.firstColor,
               width: 3,
             ),
           ),

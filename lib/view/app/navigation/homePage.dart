@@ -22,7 +22,7 @@ class HomePage extends ConsumerWidget {
             Navigator.pop(context);
           },
           icon: Icon(
-            SpaceIcons.back,
+            SpaceIcons.logout,
             color: Theme.of(context).iconTheme.color,
           ),
         ),

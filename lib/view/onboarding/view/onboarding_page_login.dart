@@ -63,7 +63,6 @@ class OnboardingPageLogin extends ConsumerWidget {
               ),
             ],
           ),
-          popButton(context),
         ],
       ),
     );
@@ -84,6 +83,7 @@ class OnboardingPageLogin extends ConsumerWidget {
   TextButton register(BuildContext context) {
     return TextButton(
       onPressed: () {
+        Navigator.pushNamed(context, '/registerPage');
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.blue, // Yazı rengi

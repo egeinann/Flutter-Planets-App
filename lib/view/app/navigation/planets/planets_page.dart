@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/models/planetContainerModel.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
-import 'package:spaceandplanets_app/utils/icons.dart';
+
 import 'package:spaceandplanets_app/view/app/navigation/planets/planet_page.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 
@@ -108,7 +108,7 @@ class PlanetsPage extends StatelessWidget {
               ),
               const Expanded(
                 child: Image(
-                  image: AssetImage("assets/images/void.png"),
+                  image: AssetImage("assets/images/blue_stars.png"),
                   fit: BoxFit.scaleDown,
                 ),
               ),
@@ -140,7 +140,7 @@ class PlanetsPage extends StatelessWidget {
                   openColor: Colors.transparent,
                   closedBuilder: (context, action) {
                     return SizedBox(
-                      width: 50.w,
+                      width: 200,
                       height: 50.h,
                       child: Stack(
                         alignment: Alignment.center,

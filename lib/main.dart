@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/view/app/navigation/homePage.dart';
 import 'package:spaceandplanets_app/view/auth/forgotPassword/forgotPassword_page.dart';
+import 'package:spaceandplanets_app/view/auth/register/view/register_page.dart';
 import 'package:spaceandplanets_app/view/auth/usernameLogin/view/login_page.dart';
 import 'package:spaceandplanets_app/view/onboarding/view/onboarding_page.dart';
 import 'package:spaceandplanets_app/utils/theme.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
             "/loginPage": (context) => const LoginPage(),
             "/homePage": (context) => const HomePage(),
             "/forgotPassword": (context) => const ForgotPasswordPage(),
+            "/registerPage": (context) => RegisterPage(),
           },
         ),
       ),

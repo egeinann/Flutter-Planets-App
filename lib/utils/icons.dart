@@ -6,4 +6,5 @@ class SpaceIcons{
   static const IconData back = Icons.arrow_back_ios_rounded;
   static const IconData next = Icons.arrow_forward_ios_rounded;
   static const IconData sms = Icons.message_rounded;
+  static const IconData logout = Icons.logout_outlined;
 }

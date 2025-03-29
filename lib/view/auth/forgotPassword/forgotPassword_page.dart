@@ -13,6 +13,7 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -90,6 +91,7 @@ class ForgotPasswordPage extends StatelessWidget {
               context: context,
               onPressed: () {
                 CustomBottomSheet.show(
+                  
                   context: context,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

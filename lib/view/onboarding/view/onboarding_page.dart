@@ -27,6 +27,10 @@ class OnboardingPage extends ConsumerWidget {
         fit: StackFit.expand,
         alignment: Alignment.center,
         children: [
+          const Image(
+            image: AssetImage("assets/backgrounds/space_background.png"),
+            fit: BoxFit.fill,
+          ),
           Hero(
             tag: "meteor",
             child: Center(

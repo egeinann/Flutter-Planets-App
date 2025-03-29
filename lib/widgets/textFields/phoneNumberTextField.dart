@@ -55,14 +55,14 @@ class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
               color: SpaceColors.firstColor,
-              width: 3,
+              width: 2,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
               color: SpaceColors.secondaryColor,
-              width: 3,
+              width: 2,
             ),
           ),
           contentPadding: const EdgeInsets.symmetric(

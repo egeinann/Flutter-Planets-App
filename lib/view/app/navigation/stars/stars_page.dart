@@ -90,7 +90,7 @@ class StarsPage extends StatelessWidget {
               ),
               const Expanded(
                 child: Image(
-                  image: AssetImage("assets/images/starCross.png"),
+                  image: AssetImage("assets/images/pink_stars.png"),
                   fit: BoxFit.scaleDown,
                 ),
               ),
@@ -122,7 +122,7 @@ class StarsPage extends StatelessWidget {
                   openColor: Colors.transparent,
                   closedBuilder: (context, action) {
                     return SizedBox(
-                      width: 50.w,
+                      width: 200,
                       height: 50.h,
                       child: Stack(
                         alignment: Alignment.center,
