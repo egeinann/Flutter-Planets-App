@@ -5,7 +5,7 @@ import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
-import 'package:spaceandplanets_app/widgets/textField.dart';
+import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -85,13 +85,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       children: [
                         Column(
                           children: [
-                            AppTextField(
+                            SpaceTextField(
                               prefixIcon: SpaceIcons.user,
                               controller: userController,
                               hintText: 'Username',
                               isPassword: false,
                             ),
-                            AppTextField(
+                            SpaceTextField(
                               prefixIcon: SpaceIcons.password,
                               showSuffixIcon: true,
                               controller: passwordController,

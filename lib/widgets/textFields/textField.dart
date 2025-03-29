@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 
-class AppTextField extends StatefulWidget {
+class SpaceTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool isPassword;
   final IconData? prefixIcon;
   final bool showSuffixIcon;
+  final int? length;
 
-  const AppTextField({
+  const SpaceTextField({
     super.key,
     required this.controller,
     required this.hintText,
     this.isPassword = false,
     this.prefixIcon,
     this.showSuffixIcon = false,
+    this.length=30,
   });
 
   @override
-  State<AppTextField> createState() => _AppTextFieldState();
+  State<SpaceTextField> createState() => _SpaceTextFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _SpaceTextFieldState extends State<SpaceTextField> {
   late bool obscureText; // Şifre görünürlüğü durumu
 
   @override
@@ -43,9 +45,11 @@ class _AppTextFieldState extends State<AppTextField> {
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
       child: TextField(
+        maxLength: widget.length,
         controller: widget.controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          counterText: "",
           hintText: widget.hintText,
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: SpaceColors.secondaryColor,

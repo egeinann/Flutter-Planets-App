@@ -3,6 +3,9 @@ import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/widgets/modalBottomSheet.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
+import 'package:spaceandplanets_app/widgets/textFields/phoneNumberTextField.dart';
+import 'package:spaceandplanets_app/widgets/textFields/smsTextField.dart';
+import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
@@ -31,7 +34,40 @@ class ForgotPasswordPage extends StatelessWidget {
           children: [
             customOutlinedButton(
               context: context,
-              onPressed: () {},
+              onPressed: () {
+                CustomBottomSheet.show(
+                  context: context,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Your email",
+                        style: Theme.of(context).textTheme.bodySmall,
+                        textAlign: TextAlign.left,
+                      ),
+                      const SizedBox(height: 5),
+                      SpaceTextField(
+                        controller: TextEditingController(),
+                        hintText: "example@domain.com",
+                      ),
+                      const SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: customOutlinedButton(
+                          context: context,
+                          onPressed: () {},
+                          child: Text(
+                            "Send code",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +79,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "Send e-maile",
+                    "Send e-mail",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -55,9 +91,67 @@ class ForgotPasswordPage extends StatelessWidget {
               onPressed: () {
                 CustomBottomSheet.show(
                   context: context,
-                  child: Text(
-                    "Send e-mail",
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Your phone number",
+                            style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.left,
+                          ),
+                          const SizedBox(height: 5),
+                          SpacePhoneNumberTextField(
+                            controller: TextEditingController(),
+                          ),
+                          const SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: customOutlinedButton(
+                              context: context,
+                              onPressed: () {},
+                              child: Text(
+                                "Send code",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Enter the code",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 5),
+                          SpaceSmsTextField(
+                            controller: TextEditingController(),
+                          ),
+                          const SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: customOutlinedButton(
+                              context: context,
+                              onPressed: () {},
+                              child: Text(
+                                "Send again",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 );
               },
