@@ -8,35 +8,39 @@ import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
-class RegisterPage extends ConsumerWidget {
+class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
-  final double imageWidth = 40.w; // Resmin genişliği
+
+  final double imageWidth = 40.w;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: spaceAppBar(
-          context: context,
-          title: "REGISTER",
-          leadingIcon: SpaceIcons.back,
-        ),
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            backgroundPlanets(),
-            registerForm(context, ref),
-          ],
-        ),
-      ),
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: spaceAppBar(
+              context: context,
+              title: "REGISTER",
+              leadingIcon: SpaceIcons.back,
+            ),
+            body: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                backgroundPlanets(),
+                registerForm(context, ref),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
   // *** REGISTER FORM ***
-  TweenAnimationBuilder<double> registerForm(
-      BuildContext context, WidgetRef ref) {
+  Widget registerForm(BuildContext context, WidgetRef ref) {
     final registerController = ref.read(registerProvider.notifier);
     final registerState = ref.watch(registerProvider);
 
@@ -88,7 +92,6 @@ class RegisterPage extends ConsumerWidget {
                 controller: registerState.passwordController,
                 hintText: "Password",
                 isPassword: true,
-                showSuffixIcon: true,
                 onChanged: (value) => registerController.updatePassword(value),
               ),
               const SizedBox(height: 5),
@@ -96,7 +99,6 @@ class RegisterPage extends ConsumerWidget {
                 controller: registerState.passwordAgainController,
                 hintText: "Password again",
                 isPassword: true,
-                showSuffixIcon: true,
                 onChanged: (value) =>
                     registerController.updatePasswordAgain(value),
               ),
@@ -106,30 +108,37 @@ class RegisterPage extends ConsumerWidget {
           customOutlinedButton(
             context: context,
             onPressed: () {
-              final registerState = ref.read(registerProvider.notifier);
+              final registerStateNotifier = ref.read(registerProvider.notifier);
 
-              if (!registerState.isValidUsername()) {
+              if (!registerStateNotifier.isValidUsername()) {
                 SnackbarHelper.spaceShowErrorSnackbar(context,
                     message:
-                        "Kullanıcı adı en az 4 karakter olmalı ve boşluk içermemeli!");
+                        "Username must be at least 4 characters and cannot contain spaces!");
                 return;
               }
 
-              if (!registerState.isValidPassword()) {
+              if (!registerStateNotifier.isValidPassword()) {
                 SnackbarHelper.spaceShowErrorSnackbar(context,
-                    message: "Şifre en az 8 karakter olmalı!");
+                    message: "Password must be at least 8 characters!");
                 return;
               }
 
-              if (!registerState.passwordsMatch()) {
+              if (!registerStateNotifier.passwordsMatch()) {
                 SnackbarHelper.spaceShowErrorSnackbar(context,
-                    message: "Şifreler eşleşmiyor!");
+                    message: "Passwords do not match!");
                 return;
               }
 
-              // Başarılı kayıt
               SnackbarHelper.spaceShowSuccessSnackbar(context,
-                  message: "Kayıt başarılı!");
+                  message: "Registration successful!");
+              Future.delayed(const Duration(seconds: 2), () {
+                registerStateNotifier.clearForm(); // Formu sıfırla
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/homePage',
+                  (route) => false, // Tüm önceki sayfaları temizler
+                );
+              });
             },
             child: Text(
               "Register",
@@ -142,7 +151,7 @@ class RegisterPage extends ConsumerWidget {
   }
 
   // *** BACKGROUND PLANETS ***
-  Opacity backgroundPlanets() {
+  Widget backgroundPlanets() {
     return Opacity(
       opacity: 0.2,
       child: Column(

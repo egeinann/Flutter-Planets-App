@@ -3,29 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class SpacePhoneNumberTextField extends StatefulWidget {
+class SpacePhoneNumberTextField extends StatelessWidget {
   final TextEditingController controller;
-  final ValueChanged<String>? onChanged; // Opsiyonel
-  final FormFieldValidator<String>? validator; // Opsiyonel
-  const SpacePhoneNumberTextField({
+  final ValueChanged<String>? onChanged;
+  final FormFieldValidator<String>? validator;
+
+  // Maske formatter'ı final olarak tanımlayarak her build'de yeniden oluşturulmasını engelliyoruz
+  final maskFormatter = MaskTextInputFormatter(
+    mask: '(###) ###-####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
+
+  SpacePhoneNumberTextField({
     super.key,
     required this.controller,
     this.onChanged,
     this.validator,
   });
-
-  @override
-  State<SpacePhoneNumberTextField> createState() =>
-      _SpacePhoneNumberTextFieldState();
-}
-
-class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
-  @override
-  void dispose() {
-    // Controller'ı dispose ediyoruz
-    widget.controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +28,13 @@ class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
       child: TextFormField(
-        onChanged: widget.onChanged,
-        validator: widget.validator,
-        controller: widget.controller,
+        controller: controller,
+        onChanged: onChanged,
+        validator: validator,
         keyboardType: TextInputType.phone,
         inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly, // Sadece rakam girişi
-          // Telefon numarası maskesi
-          MaskTextInputFormatter(
-            mask: '(###) ###-####', // Maskelenmiş format
-            filter: {"#": RegExp(r'[0-9]')},
-          ),
+          FilteringTextInputFormatter.digitsOnly,
+          maskFormatter,
         ],
         decoration: InputDecoration(
           hintText: '(###) ###-####',

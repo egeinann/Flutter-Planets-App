@@ -1,35 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 
-class SpaceSmsTextField extends StatefulWidget {
+class SpaceSmsTextField extends StatelessWidget {
   final TextEditingController controller;
-  final int pinLength; // Pin kodu uzunluğu
+  final int pinLength;
   final bool autoFocus;
-  final ValueChanged<String>? onChanged; // Opsiyonel
-  final FormFieldValidator<String>? validator; // Opsiyonel
-  final TextInputType? keyboardType; // Opsiyonel
+  final ValueChanged<String>? onChanged;
+  final FormFieldValidator<String>? validator;
+  final TextInputType? keyboardType;
 
   const SpaceSmsTextField({
     super.key,
     required this.controller,
-    this.pinLength = 6, // Varsayılan olarak 6 haneli pin kodu
+    this.pinLength = 6,
     this.autoFocus = false,
-    this.onChanged, // Opsiyonel
-    this.validator, // Opsiyonel
-    this.keyboardType, // Opsiyonel
+    this.onChanged,
+    this.validator,
+    this.keyboardType,
   });
-
-  @override
-  State<SpaceSmsTextField> createState() => _SpaceSmsTextFieldState();
-}
-
-class _SpaceSmsTextFieldState extends State<SpaceSmsTextField> {
-  @override
-  void dispose() {
-    // Controller'ı dispose ediyoruz
-    widget.controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +27,18 @@ class _SpaceSmsTextFieldState extends State<SpaceSmsTextField> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(widget.pinLength, (index) {
+        children: List.generate(pinLength, (index) {
           return SizedBox(
             width: 50,
             height: 60,
             child: TextFormField(
-              controller: widget.controller,
-              maxLength: 1, // Her bir kutu için 1 karakter alacak
-              keyboardType: widget.keyboardType ??
-                  TextInputType.number, // Varsayılan olarak sayısal klavye
-              autofocus: widget.autoFocus && index == 0,
+              controller: controller,
+              maxLength: 1,
+              keyboardType: keyboardType ?? TextInputType.number,
+              autofocus: autoFocus && index == 0,
               textAlign: TextAlign.center,
-              onChanged: widget.onChanged, // onChanged opsiyonel
-              validator: widget.validator, // validator opsiyonel
+              onChanged: onChanged,
+              validator: validator,
               decoration: InputDecoration(
                 counterText: '',
                 hintText: '-',
