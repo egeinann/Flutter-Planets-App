@@ -5,14 +5,18 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class SpacePhoneNumberTextField extends StatefulWidget {
   final TextEditingController controller;
-
+  final ValueChanged<String>? onChanged; // Opsiyonel
+  final FormFieldValidator<String>? validator; // Opsiyonel
   const SpacePhoneNumberTextField({
     super.key,
     required this.controller,
+    this.onChanged,
+    this.validator,
   });
 
   @override
-  State<SpacePhoneNumberTextField> createState() => _SpacePhoneNumberTextFieldState();
+  State<SpacePhoneNumberTextField> createState() =>
+      _SpacePhoneNumberTextFieldState();
 }
 
 class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
@@ -29,7 +33,9 @@ class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
-      child: TextField(
+      child: TextFormField(
+        onChanged: widget.onChanged,
+        validator: widget.validator,
         controller: widget.controller,
         keyboardType: TextInputType.phone,
         inputFormatters: [
@@ -43,7 +49,7 @@ class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
         decoration: InputDecoration(
           hintText: '(###) ###-####',
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: SpaceColors.secondaryColor,
+                color: SpaceColors.textColor.withOpacity(0.2),
               ),
           filled: true,
           fillColor: SpaceColors.backgroundColor.withOpacity(0.5),
@@ -70,11 +76,7 @@ class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
             horizontal: 20,
           ),
         ),
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: SpaceColors.firstColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }

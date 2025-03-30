@@ -5,7 +5,6 @@ import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
-import 'package:spaceandplanets_app/widgets/popButton.dart';
 
 class OnboardingPageLogin extends ConsumerWidget {
   const OnboardingPageLogin({super.key});

@@ -79,6 +79,7 @@ class OnboardingPage extends ConsumerWidget {
         ),
         onSubmit: () {
           Navigator.pushNamed(context, '/onboardingPageLogin');
+          return null;
         },
         child: Text(
           "Slide to Login",

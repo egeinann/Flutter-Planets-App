@@ -7,6 +7,7 @@ import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/view/app/navigation/planets/planets_page.dart';
 import 'package:spaceandplanets_app/view/app/navigation/stars/stars_page.dart';
 import 'package:spaceandplanets_app/view/app/navigation/state/NavigationState.dart';
+import 'package:spaceandplanets_app/widgets/appbar.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -16,22 +17,10 @@ class HomePage extends ConsumerWidget {
     final currentIndex = ref.watch(navigationProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            SpaceIcons.logout,
-            color: Theme.of(context).iconTheme.color,
-          ),
-        ),
-        backgroundColor: SpaceColors.backgroundColor,
-        title: Text(
-          "Home",
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        centerTitle: true,
+      appBar: spaceAppBar(
+        context: context,
+        title: "HOME",
+        leadingIcon: SpaceIcons.logout,
       ),
       body: IndexedStack(
         index: currentIndex,

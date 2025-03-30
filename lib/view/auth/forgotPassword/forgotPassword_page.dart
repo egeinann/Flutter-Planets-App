@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
+import 'package:spaceandplanets_app/widgets/appbar.dart';
 import 'package:spaceandplanets_app/widgets/modalBottomSheet.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/textFields/phoneNumberTextField.dart';
@@ -14,20 +14,10 @@ class ForgotPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            SpaceIcons.back,
-            color: Theme.of(context).iconTheme.color,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: SpaceColors.backgroundColor,
-        title: Text("Reset Password",
-            style: Theme.of(context).textTheme.bodyLarge),
+      appBar: spaceAppBar(
+        context: context,
+        title: "RESET PASSWORD",
+        leadingIcon: SpaceIcons.back,
       ),
       body: Center(
         child: Column(
@@ -91,7 +81,6 @@ class ForgotPasswordPage extends StatelessWidget {
               context: context,
               onPressed: () {
                 CustomBottomSheet.show(
-                  
                   context: context,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -8,6 +8,9 @@ class SpaceTextField extends StatefulWidget {
   final IconData? prefixIcon;
   final bool showSuffixIcon;
   final int? length;
+  final FormFieldValidator<String>? validator; // Opsiyonel
+  final TextInputType? keyboardType; // Opsiyonel
+  final ValueChanged<String>? onChanged; // Opsiyonel
 
   const SpaceTextField({
     super.key,
@@ -16,7 +19,10 @@ class SpaceTextField extends StatefulWidget {
     this.isPassword = false,
     this.prefixIcon,
     this.showSuffixIcon = false,
-    this.length=30,
+    this.length, // Opsiyonel
+    this.validator, // Opsiyonel
+    this.keyboardType, // Opsiyonel
+    this.onChanged, // Opsiyonel
   });
 
   @override
@@ -31,7 +37,7 @@ class _SpaceTextFieldState extends State<SpaceTextField> {
     super.initState();
     obscureText = widget.isPassword; // Başlangıçta isPassword değerini al
   }
-  
+
   @override
   void dispose() {
     widget.controller.dispose();
@@ -44,22 +50,25 @@ class _SpaceTextFieldState extends State<SpaceTextField> {
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
-      child: TextField(
+      child: TextFormField(
         maxLength: widget.length,
         controller: widget.controller,
         obscureText: obscureText,
+        keyboardType:
+            widget.keyboardType ?? TextInputType.text, // Varsayılan text klavye
+        validator: widget.validator, // Validator opsiyonel
+        onChanged: widget.onChanged, // onChanged opsiyonel
         decoration: InputDecoration(
           counterText: "",
           hintText: widget.hintText,
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: SpaceColors.secondaryColor,
+                color: SpaceColors.textColor.withOpacity(0.2),
               ),
           prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
           suffixIcon: widget.showSuffixIcon
               ? IconButton(
                   icon: Icon(
                     obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
                   ),
                   onPressed: () {
                     setState(() {
@@ -93,6 +102,7 @@ class _SpaceTextFieldState extends State<SpaceTextField> {
             horizontal: 20,
           ),
         ),
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
