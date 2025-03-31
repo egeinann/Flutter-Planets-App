@@ -113,9 +113,9 @@ class OnboardingPageLogin extends ConsumerWidget {
   }
 
   // *** LOGIN USERNAME ***
-  OutlinedButton loginWithUsername(BuildContext context) {
-    return customOutlinedButton(
-      context: context,
+  Widget loginWithUsername(BuildContext context) {
+    return CustomOutlinedButton(
+  
       onPressed: () {
         Navigator.pushNamed(context, '/loginPage');
         print("object");
@@ -139,9 +139,9 @@ class OnboardingPageLogin extends ConsumerWidget {
   }
 
   // *** LOGIN GOOGLE ***
-  OutlinedButton loginWithGoogle(BuildContext context) {
-    return customOutlinedButton(
-      context: context,
+  Widget loginWithGoogle(BuildContext context) {
+    return CustomOutlinedButton(
+  
       onPressed: () {},
       child: Row(
         mainAxisSize: MainAxisSize.min,

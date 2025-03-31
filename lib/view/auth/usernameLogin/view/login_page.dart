@@ -104,8 +104,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          customOutlinedButton(
-                            context: context,
+                          CustomOutlinedButton(
+                        
                             onPressed: () {
                               Navigator.pushNamed(context, "/homePage");
                             },

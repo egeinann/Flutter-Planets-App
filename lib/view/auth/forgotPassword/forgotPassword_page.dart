@@ -23,8 +23,8 @@ class ForgotPasswordPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            customOutlinedButton(
-              context: context,
+            CustomOutlinedButton(
+       
               onPressed: () {
                 CustomBottomSheet.show(
                   context: context,
@@ -46,8 +46,8 @@ class ForgotPasswordPage extends StatelessWidget {
                       const SizedBox(height: 5),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: customOutlinedButton(
-                          context: context,
+                        child: CustomOutlinedButton(
+                      
                           onPressed: () {},
                           child: Text(
                             "Send code",
@@ -77,8 +77,8 @@ class ForgotPasswordPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            customOutlinedButton(
-              context: context,
+            CustomOutlinedButton(
+            
               onPressed: () {
                 CustomBottomSheet.show(
                   context: context,
@@ -104,8 +104,8 @@ class ForgotPasswordPage extends StatelessWidget {
                           const SizedBox(height: 5),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: customOutlinedButton(
-                              context: context,
+                            child: CustomOutlinedButton(
+                            
                               onPressed: () {},
                               child: Text(
                                 "Send code",
@@ -131,8 +131,8 @@ class ForgotPasswordPage extends StatelessWidget {
                           const SizedBox(height: 5),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: customOutlinedButton(
-                              context: context,
+                            child: CustomOutlinedButton(
+                          
                               onPressed: () {},
                               child: Text(
                                 "Send again",

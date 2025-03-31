@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/models/starContainerModel.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
-import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/view/app/navigation/stars/star_page.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 
@@ -19,6 +18,9 @@ class StarsPage extends StatelessWidget {
           "The Sun is the star at the center of our solar system. It provides the energy necessary for life on Earth and is the source of heat and light. Its gravitational pull keeps the planets in orbit, and its energy powers Earth's climate systems. The Sun's surface temperature is around 5,500°C, and it is primarily composed of hydrogen and helium.",
       backgroundColor: StarColors.sun,
       size: 20.h,
+      temperature: "5,500°C",
+      diameter: "1.39 million km",
+      planets: 8,
     ),
     StarContainermodel(
       name: "Proxima Centauri",
@@ -28,6 +30,9 @@ class StarsPage extends StatelessWidget {
           "Proxima Centauri is a red dwarf star in the Alpha Centauri star system. It is the closest known star to the Sun, located about 4.24 light-years away. Despite its proximity, Proxima Centauri is not visible to the naked eye, as it is much dimmer than the Sun. It is known to have at least one exoplanet, Proxima b, which lies in the habitable zone.",
       backgroundColor: StarColors.proximaCentauri,
       size: 20.h,
+      temperature: "3,042°C",
+      diameter: "200,000 km",
+      planets: 1,
     ),
     StarContainermodel(
       name: "Sirius",
@@ -37,6 +42,9 @@ class StarsPage extends StatelessWidget {
           "Sirius is a binary star system in the constellation Canis Major. It consists of Sirius A, a main-sequence star, and Sirius B, a white dwarf. Sirius A is the brightest star in the night sky, and it is about 8.6 light-years from Earth. Its brightness and proximity make it one of the most well-known stars in the sky.",
       backgroundColor: StarColors.sirius,
       size: 20.h,
+      temperature: "9,940°C",
+      diameter: "2.4 million km",
+      planets: 0,
     ),
     StarContainermodel(
       name: "Rigel",
@@ -46,6 +54,9 @@ class StarsPage extends StatelessWidget {
           "Rigel is a blue supergiant star located in the constellation Orion. It is one of the most luminous stars in the sky and is about 860 light-years away from Earth. Rigel is much more massive than the Sun and will eventually end its life in a supernova explosion. It has a surface temperature of around 11,000°C, giving it a blue hue.",
       backgroundColor: StarColors.rigel,
       size: 20.h,
+      temperature: "11,000°C",
+      diameter: "116 million km",
+      planets: 0,
     ),
     StarContainermodel(
       name: "Betelgeuse",
@@ -55,6 +66,9 @@ class StarsPage extends StatelessWidget {
           "Betelgeuse is a red supergiant star in the constellation Orion. It is one of the largest and most luminous stars visible to the naked eye. Located about 640 light-years from Earth, Betelgeuse is nearing the end of its life and will eventually explode in a supernova. Its size and color make it a prominent feature in the night sky.",
       backgroundColor: StarColors.betelgeuse,
       size: 20.h,
+      temperature: "3,500°C",
+      diameter: "1.4 billion km",
+      planets: 0,
     ),
   ];
 

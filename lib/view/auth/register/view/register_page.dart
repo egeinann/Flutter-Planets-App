@@ -105,8 +105,7 @@ class RegisterPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          customOutlinedButton(
-            context: context,
+          CustomOutlinedButton(
             onPressed: () {
               final registerStateNotifier = ref.read(registerProvider.notifier);
 

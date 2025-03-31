@@ -4,10 +4,12 @@ class Planetcontainermodel {
   String name;
   String image;
   String description;
-  String? longDescription="";
+  String? longDescription = "";
   Color backgroundColor;
   double size;
-
+  String temperature;
+  String diameter;
+  int satellites;
   Planetcontainermodel({
     required this.name,
     required this.image,
@@ -15,5 +17,8 @@ class Planetcontainermodel {
     this.longDescription,
     required this.backgroundColor,
     required this.size,
+    required this.temperature,
+    required this.diameter,
+    required this.satellites,
   });
 }
