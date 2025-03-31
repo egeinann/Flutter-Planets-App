@@ -9,15 +9,17 @@ class StarPage extends StatelessWidget {
 
   StarPage({super.key, required this.star});
   final double imageWidth = 40.w; // Resmin genişliği
+  final double featuresWidth = 45.w;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: star.backgroundColor,
       body: Stack(
+        alignment: Alignment.topCenter,
         children: [
           starImageAnimated(),
           topAppBar(context),
-          features(context),
+          featuresAnimated(),
           starLongDescription(context),
         ],
       ),
@@ -25,90 +27,98 @@ class StarPage extends StatelessWidget {
   }
 
   // *** STAR FEATURES ***
-  Widget features(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FittedBox(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Temperature: ",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.fade,
+  TweenAnimationBuilder<double> featuresAnimated() {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 120.w, end: 75.w - (featuresWidth / 2)),
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+      builder: (context, rightPosition, child) {
+        return Positioned(
+          right: rightPosition,
+          top: 50.h - (featuresWidth / 2), // Ekranın ortasına hizalama
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FittedBox(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Temperature: ",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                      Text(
+                        star.temperature,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: SpaceColors.secondaryColor),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ],
                   ),
-                  Text(
-                    star.temperature,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: SpaceColors.secondaryColor),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.fade,
+                ),
+                FittedBox(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Diameter: ",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                      Text(
+                        star.diameter,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: SpaceColors.secondaryColor),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                FittedBox(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Satellites: ",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                      Text(
+                        star.planets.toString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: SpaceColors.secondaryColor),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            FittedBox(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Diameter: ",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.fade,
-                  ),
-                  Text(
-                    star.diameter,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: SpaceColors.secondaryColor),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.fade,
-                  ),
-                ],
-              ),
-            ),
-            FittedBox(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Satellites: ",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.fade,
-                  ),
-                  Text(
-                    star.planets.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: SpaceColors.secondaryColor),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.fade,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
