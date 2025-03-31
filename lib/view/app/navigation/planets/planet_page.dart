@@ -11,6 +11,7 @@ class PlanetPage extends StatelessWidget {
   PlanetPage({super.key, required this.planet});
   final double imageWidth = 40.w; // Resmin genişliği
   final double featuresWidth = 40.w;
+  final double featuresHeight = 100.h;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +21,7 @@ class PlanetPage extends StatelessWidget {
           color: planet.backgroundColor,
         ),
         child: Stack(
+          alignment: Alignment.topCenter,
           children: [
             planetImageAnimated(),
             topAppBar(context),
@@ -34,13 +36,13 @@ class PlanetPage extends StatelessWidget {
   // *** FEATURES ***
   TweenAnimationBuilder<double> featuresAnimated() {
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 120.w, end: 75.w - (featuresWidth / 2)),
+      tween: Tween<double>(begin: -100.w, end: 25.w - (featuresWidth / 2)),
       duration: const Duration(seconds: 1),
       curve: Curves.easeInOut,
-      builder: (context, rightPosition, child) {
+      builder: (context, leftPosition, child) {
         return Positioned(
-          right: rightPosition,
-          top: 50.h - (featuresWidth / 2), // Ekranın ortasına hizalama
+          left: leftPosition,
+          top: featuresHeight / 2, // Ekranın ortasına hizalama
           child: Align(
             alignment: Alignment.centerLeft,
             child: Column(
