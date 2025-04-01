@@ -14,15 +14,20 @@ class StarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: star.backgroundColor,
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          starImageAnimated(),
-          topAppBar(context),
-          featuresAnimated(),
-          starLongDescription(context),
-        ],
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: star.backgroundColor,
+        ),
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            starImageAnimated(),
+            topAppBar(context),
+            featuresAnimated(),
+            starLongDescription(context),
+          ],
+        ),
       ),
     );
   }

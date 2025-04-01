@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.spaceandplanets_app"
+    namespace = "com.egeinan.spaceandplanets_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "25.1.8937393"
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.spaceandplanets_app"
+        applicationId = "com.egeinan.spaceandplanets_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
@@ -39,6 +39,8 @@ android {
     }
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 flutter {
     source = "../.."
 }

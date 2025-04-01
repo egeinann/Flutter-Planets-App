@@ -1,4 +1,4 @@
-package com.example.spaceandplanets_app
+package com.egeinan.spaceandplanets_app
 
 import io.flutter.embedding.android.FlutterActivity
 

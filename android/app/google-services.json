@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "855073902379",
+    "project_id": "spaceandplanetsauth",
+    "storage_bucket": "spaceandplanetsauth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855073902379:android:9d7b77343f97873ae4bf6e",
+        "android_client_info": {
+          "package_name": "com.egeinan.spaceandplanets_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRrT5J5poncsPuXhfudaIa4u_xCfyBhJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

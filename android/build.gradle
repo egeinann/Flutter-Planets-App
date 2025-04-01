@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()  // Firebase için gerekli repository
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.0' // Gradle Plugin versiyonunu kontrol edin
+        classpath 'com.google.gms:google-services:4.3.15'  // Firebase plugin'i
+    }
+}
 allprojects {
     repositories {
         google()
