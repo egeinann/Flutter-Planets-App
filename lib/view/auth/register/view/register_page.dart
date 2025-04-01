@@ -4,8 +4,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/view/auth/register/state/register_state.dart';
 import 'package:spaceandplanets_app/widgets/appbar.dart';
+import 'package:spaceandplanets_app/widgets/modalBottomSheet.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
+import 'package:spaceandplanets_app/widgets/textFields/phoneNumberTextField.dart';
+import 'package:spaceandplanets_app/widgets/textFields/smsTextField.dart';
 import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -66,7 +69,7 @@ class RegisterPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Choose a username",
+                "Personal information",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 5),
@@ -74,6 +77,12 @@ class RegisterPage extends StatelessWidget {
                 controller: registerState.usernameController,
                 hintText: "Username",
                 onChanged: (value) => registerController.updateUsername(value),
+              ),
+              const SizedBox(height: 5),
+              SpacePhoneNumberTextField(
+                controller: registerState.phoneNumberController,
+                onChanged: (value) =>
+                    registerController.updatePhoneNumber(value),
               ),
             ],
           ),
@@ -128,16 +137,73 @@ class RegisterPage extends StatelessWidget {
                 return;
               }
 
-              SnackbarHelper.spaceShowSuccessSnackbar(context,
-                  message: "Registration successful!");
-              Future.delayed(const Duration(seconds: 2), () {
-                registerStateNotifier.clearForm(); // Formu sıfırla
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/homePage',
-                  (route) => false, // Tüm önceki sayfaları temizler
-                );
-              });
+              if (!registerStateNotifier.isValidPhoneNumber()) {
+                SnackbarHelper.spaceShowErrorSnackbar(context,
+                    message: "Please enter a valid phone number!");
+                return;
+              }
+              CustomBottomSheet.show(
+                context: context,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "SMS Verification",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 5),
+                    SpaceSmsTextField(
+                      controller: registerState.smsCodeController,
+                      onChanged: (value) {
+                        ref
+                            .read(registerProvider.notifier)
+                            .updateSmsCode(value);
+                      },
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomOutlinedButton(
+                          onPressed: () {
+                            // şimdilik boş kalsın
+                          },
+                          child: Text(
+                            "Send again",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                        CustomOutlinedButton(
+                          onPressed: () {
+                            if (!registerStateNotifier.isValidSmsCode()) {
+                              Navigator.pop(context);
+                              SnackbarHelper.spaceShowErrorSnackbar(context,
+                                  message: "Verification failed!");
+                              return;
+                            }
+                            // eğer giriş yapılıyorsa...
+                            registerStateNotifier.clearForm();
+                            SnackbarHelper.spaceShowSuccessSnackbar(context,
+                                message: "SMS Verification");
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/homePage',
+                              (route) => false,
+                            );
+                          },
+                          child: Text(
+                            "Check",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
             },
             child: Text(
               "Register",

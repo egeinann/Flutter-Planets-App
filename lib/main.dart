@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/view/app/navigation/homePage.dart';
 import 'package:spaceandplanets_app/view/auth/forgotPassword/forgotPassword_page.dart';
+import 'package:spaceandplanets_app/view/auth/forgotPassword/resetpassword_page.dart';
 import 'package:spaceandplanets_app/view/auth/register/view/register_page.dart';
 import 'package:spaceandplanets_app/view/auth/usernameLogin/view/login_page.dart';
 import 'package:spaceandplanets_app/view/onboarding/view/onboarding_page.dart';
@@ -14,7 +15,6 @@ import 'package:spaceandplanets_app/view/onboarding/view/onboarding_page_login.d
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  print("firebase başlatıldı");
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
             "/homePage": (context) => const HomePage(),
             "/forgotPassword": (context) => const ForgotPasswordPage(),
             "/registerPage": (context) => RegisterPage(),
+            "/resetPasswordPage": (context) => const ResetPasswordPage(),
           },
         ),
       ),

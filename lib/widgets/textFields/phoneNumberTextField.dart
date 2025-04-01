@@ -37,7 +37,7 @@ class SpacePhoneNumberTextField extends StatelessWidget {
           maskFormatter,
         ],
         decoration: InputDecoration(
-          hintText: '(###) ###-####',
+          hintText: 'Phone number',
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: SpaceColors.textColor.withOpacity(0.2),
               ),
@@ -50,15 +50,15 @@ class SpacePhoneNumberTextField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
-              color: SpaceColors.firstColor,
-              width: 2,
+              color: SpaceColors.secondaryColor,
+              width: 3,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(
-              color: SpaceColors.secondaryColor,
-              width: 2,
+              color: SpaceColors.firstColor,
+              width: 3,
             ),
           ),
           contentPadding: const EdgeInsets.symmetric(

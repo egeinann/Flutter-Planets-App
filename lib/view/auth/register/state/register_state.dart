@@ -8,6 +8,9 @@ class RegisterState extends StateNotifier<RegisterForm> {
     state.usernameController.clear();
     state.passwordController.clear();
     state.passwordAgainController.clear();
+    state.phoneNumberController.clear();
+    state.smsCodeController.clear();
+    
     state = RegisterForm();
   }
 
@@ -16,6 +19,8 @@ class RegisterState extends StateNotifier<RegisterForm> {
     state.usernameController.dispose();
     state.passwordController.dispose();
     state.passwordAgainController.dispose();
+    state.phoneNumberController.dispose();
+    state.smsCodeController.dispose();
     super.dispose();
   }
 
@@ -31,6 +36,14 @@ class RegisterState extends StateNotifier<RegisterForm> {
     state.passwordAgainController.text = value;
   }
 
+  void updatePhoneNumber(String value) {
+    state.phoneNumberController.text = value;
+  }
+
+  void updateSmsCode(String value) {
+    state.smsCodeController.text = value;
+  }
+
   bool isValidUsername() {
     String username = state.usernameController.text;
     return username.length >= 4 && !username.contains(" ");
@@ -44,8 +57,22 @@ class RegisterState extends StateNotifier<RegisterForm> {
     return state.passwordController.text == state.passwordAgainController.text;
   }
 
+  bool isValidPhoneNumber() {
+    String phoneNumber = state.phoneNumberController.text;
+    return phoneNumber.isNotEmpty && phoneNumber.length > 13;
+  }
+
+  bool isValidSmsCode() {
+    String smsCode = state.smsCodeController.text;
+    return smsCode.isNotEmpty && smsCode.length == 6; // Örn: 6 haneli SMS kodu
+  }
+
   bool isValidForm() {
-    return isValidUsername() && isValidPassword() && passwordsMatch();
+    return isValidUsername() &&
+        isValidPassword() &&
+        passwordsMatch() &&
+        isValidPhoneNumber() &&
+        isValidSmsCode();
   }
 }
 
@@ -53,6 +80,8 @@ class RegisterForm {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordAgainController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController smsCodeController = TextEditingController();
 }
 
 final registerProvider =

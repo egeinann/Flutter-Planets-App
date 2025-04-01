@@ -16,7 +16,7 @@ class ForgotPasswordPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: spaceAppBar(
         context: context,
-        title: "RESET PASSWORD",
+        title: "FORGOT PASSWORD",
         leadingIcon: SpaceIcons.back,
       ),
       body: Center(
@@ -24,7 +24,6 @@ class ForgotPasswordPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomOutlinedButton(
-       
               onPressed: () {
                 CustomBottomSheet.show(
                   context: context,
@@ -47,7 +46,6 @@ class ForgotPasswordPage extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: CustomOutlinedButton(
-                      
                           onPressed: () {},
                           child: Text(
                             "Send code",
@@ -78,7 +76,6 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             CustomOutlinedButton(
-            
               onPressed: () {
                 CustomBottomSheet.show(
                   context: context,
@@ -105,7 +102,6 @@ class ForgotPasswordPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: CustomOutlinedButton(
-                            
                               onPressed: () {},
                               child: Text(
                                 "Send code",
@@ -132,10 +128,12 @@ class ForgotPasswordPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: CustomOutlinedButton(
-                          
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/resetPasswordPage");
+                              },
                               child: Text(
-                                "Send again",
+                                "Check",
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             ),

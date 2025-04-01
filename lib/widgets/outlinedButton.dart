@@ -6,10 +6,10 @@ class CustomOutlinedButton extends StatefulWidget {
   final Widget child;
 
   const CustomOutlinedButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   _CustomOutlinedButtonState createState() => _CustomOutlinedButtonState();
@@ -33,6 +33,7 @@ class _CustomOutlinedButtonState extends State<CustomOutlinedButton> {
               color: SpaceColors.backgroundColor.withOpacity(0.5),
               width: 2,
             ),
+            overlayColor: SpaceColors.textColor,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
