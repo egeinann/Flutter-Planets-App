@@ -59,7 +59,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 350),
+                duration: const Duration(milliseconds: 500),
                 height: height == 500 ? dynamicHeight : height,
                 decoration: BoxDecoration(
                   color: color,
@@ -146,7 +146,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: Image(
                 image: const AssetImage("assets/planets/saturn.png"),
                 fit: BoxFit.scaleDown,
-                height: 30.h,
+                height: 25.h,
               ),
             ),
           ],

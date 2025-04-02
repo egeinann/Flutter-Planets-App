@@ -25,30 +25,43 @@ class SnackbarHelper {
     required IconData icon,
     required Color backgroundColor,
   }) {
-    final snackBar = SnackBar(
-
-      content: Row(
-        children: [
-          Icon(icon, color: Theme.of(context).iconTheme.color),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              message,
-              style: Theme.of(context).textTheme.bodyLarge,
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 50, // Üstten 50px boşluk bırakıyoruz
+        left: 20,
+        right: 20,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Icon(icon, color: Colors.white),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    message,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
-      backgroundColor: backgroundColor,
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(20),
-      duration: const Duration(seconds: 2),
-      
     );
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+    // Overlay'e yeni entry ekliyoruz
+    overlay.insert(overlayEntry);
+
+    // 2 saniye sonra Overlay'i kaldırıyoruz
+    Future.delayed(const Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
   }
 }
