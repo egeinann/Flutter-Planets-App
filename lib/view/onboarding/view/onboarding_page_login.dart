@@ -141,7 +141,6 @@ class OnboardingPageLogin extends ConsumerWidget {
   // *** LOGIN GOOGLE ***
   Widget loginWithGoogle(BuildContext context) {
     return CustomOutlinedButton(
-  
       onPressed: () {},
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -154,7 +153,7 @@ class OnboardingPageLogin extends ConsumerWidget {
           ),
           const SizedBox(width: 10),
           Text(
-            "Login with Googlee",
+            "Login with Google",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],
