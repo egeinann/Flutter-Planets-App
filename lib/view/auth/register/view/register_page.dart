@@ -74,9 +74,9 @@ class RegisterPage extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               SpaceTextField(
-                controller: registerState.usernameController,
-                hintText: "Username",
-                onChanged: (value) => registerController.updateUsername(value),
+                controller: registerState.emailController,
+                hintText: "E-mail",
+                onChanged: (value) => registerController.updateEmail(value),
               ),
               const SizedBox(height: 5),
               SpacePhoneNumberTextField(
@@ -118,10 +118,10 @@ class RegisterPage extends StatelessWidget {
             onPressed: () {
               final registerStateNotifier = ref.read(registerProvider.notifier);
 
-              if (!registerStateNotifier.isValidUsername()) {
+              if (!registerStateNotifier.isValidEmail()) {
                 SnackbarHelper.spaceShowErrorSnackbar(context,
                     message:
-                        "Username must be at least 4 characters and cannot contain spaces!");
+                        "Please enter a valid email!");
                 return;
               }
 
@@ -154,13 +154,15 @@ class RegisterPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const SizedBox(height: 5),
-                    SpaceSmsTextField(
-                      controller: registerState.smsCodeController,
-                      onChanged: (value) {
-                        ref
-                            .read(registerProvider.notifier)
-                            .updateSmsCode(value);
-                      },
+                    FittedBox(
+                      child: SpaceSmsTextField(
+                        controller: registerState.smsCodeController,
+                        onChanged: (value) {
+                          ref
+                              .read(registerProvider.notifier)
+                              .updateSmsCode(value);
+                        },
+                      ),
                     ),
                     const SizedBox(height: 5),
                     Row(
@@ -169,7 +171,7 @@ class RegisterPage extends StatelessWidget {
                       children: [
                         CustomOutlinedButton(
                           onPressed: () {
-                            // şimdilik boş kalsın
+                            
                           },
                           child: Text(
                             "Send again",
@@ -179,7 +181,6 @@ class RegisterPage extends StatelessWidget {
                         CustomOutlinedButton(
                           onPressed: () {
                             if (!registerStateNotifier.isValidSmsCode()) {
-                              Navigator.pop(context);
                               SnackbarHelper.spaceShowErrorSnackbar(context,
                                   message: "Verification failed!");
                               return;

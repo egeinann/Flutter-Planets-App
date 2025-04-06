@@ -5,7 +5,7 @@ class RegisterState extends StateNotifier<RegisterForm> {
   RegisterState() : super(RegisterForm());
 
   void clearForm() {
-    state.usernameController.clear();
+    state.emailController.clear();
     state.passwordController.clear();
     state.passwordAgainController.clear();
     state.phoneNumberController.clear();
@@ -16,7 +16,7 @@ class RegisterState extends StateNotifier<RegisterForm> {
 
   @override
   void dispose() {
-    state.usernameController.dispose();
+    state.emailController.dispose();
     state.passwordController.dispose();
     state.passwordAgainController.dispose();
     state.phoneNumberController.dispose();
@@ -24,8 +24,8 @@ class RegisterState extends StateNotifier<RegisterForm> {
     super.dispose();
   }
 
-  void updateUsername(String value) {
-    state.usernameController.text = value;
+  void updateEmail(String value) {
+    state.emailController.text = value;
   }
 
   void updatePassword(String value) {
@@ -44,9 +44,9 @@ class RegisterState extends StateNotifier<RegisterForm> {
     state.smsCodeController.text = value;
   }
 
-  bool isValidUsername() {
-    String username = state.usernameController.text;
-    return username.length >= 4 && !username.contains(" ");
+  bool isValidEmail() {
+    String email = state.emailController.text.trim();
+    return email.isNotEmpty && email.contains("@") && email.contains(".");
   }
 
   bool isValidPassword() {
@@ -68,7 +68,7 @@ class RegisterState extends StateNotifier<RegisterForm> {
   }
 
   bool isValidForm() {
-    return isValidUsername() &&
+    return isValidEmail() &&
         isValidPassword() &&
         passwordsMatch() &&
         isValidPhoneNumber() &&
@@ -77,7 +77,7 @@ class RegisterState extends StateNotifier<RegisterForm> {
 }
 
 class RegisterForm {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordAgainController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();

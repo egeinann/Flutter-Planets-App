@@ -5,7 +5,7 @@ class ResetPasswordState extends StateNotifier<ResetPasswordForm> {
   ResetPasswordState() : super(ResetPasswordForm());
 
   void clearForm() {
-    state.usernameController.clear();
+    state.emailController.clear();
     state.passwordController.clear();
     state.confirmPasswordController.clear();
 
@@ -14,14 +14,14 @@ class ResetPasswordState extends StateNotifier<ResetPasswordForm> {
 
   @override
   void dispose() {
-    state.usernameController.dispose();
+    state.emailController.dispose();
     state.passwordController.dispose();
     state.confirmPasswordController.dispose();
     super.dispose();
   }
 
   void updateUsername(String value) {
-    state.usernameController.text = value;
+    state.emailController.text = value;
   }
 
   void updatePassword(String value) {
@@ -33,9 +33,9 @@ class ResetPasswordState extends StateNotifier<ResetPasswordForm> {
   }
 
   /// **👤 Kullanıcı adı validasyonu (Boş olamaz)**
-  bool isValidUsername() {
-    String username = state.usernameController.text;
-    return username.length >= 4 && !username.contains(" ");
+  bool isValidEmail() {
+    String email = state.emailController.text.trim();
+    return email.isNotEmpty && email.contains("@") && email.contains(".");
   }
 
   /// **🔑 Şifre validasyonu (En az 8 karakter)**
@@ -51,12 +51,12 @@ class ResetPasswordState extends StateNotifier<ResetPasswordForm> {
 
   /// **✅ Formun tamamı doğru mu?**
   bool validateForm() {
-    return isValidUsername() && isValidPassword() && isPasswordMatch();
+    return isValidEmail() && isValidPassword() && isPasswordMatch();
   }
 }
 
 class ResetPasswordForm {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();

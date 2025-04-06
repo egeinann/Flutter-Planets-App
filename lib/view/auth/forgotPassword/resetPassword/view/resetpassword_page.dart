@@ -13,9 +13,6 @@ class ResetPasswordPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final resetPasswordController = ref.watch(resetPasswordProvider);
-    final resetPasswordState = ref.read(resetPasswordProvider.notifier);
-
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -48,12 +45,12 @@ class ResetPasswordPage extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Your username", style: Theme.of(context).textTheme.bodySmall),
+            Text("Your email", style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: 5),
             SpaceTextField(
-              controller: resetPasswordController.usernameController,
+              controller: resetPasswordController.emailController,
               onChanged: (value) => resetPasswordState.updateUsername(value),
-              hintText: "Username",
+              hintText: "Email",
             ),
           ],
         ),
@@ -82,12 +79,7 @@ class ResetPasswordPage extends ConsumerWidget {
         const SizedBox(height: 20),
         CustomOutlinedButton(
           onPressed: () {
-            if (!resetPasswordState.isValidUsername()) {
-              SnackbarHelper.spaceShowErrorSnackbar(context,
-                  message:
-                      "Username must be at least 4 characters and cannot contain spaces!");
-              return;
-            } else if (!resetPasswordState.isValidPassword()) {
+            if (!resetPasswordState.isValidPassword()) {
               SnackbarHelper.spaceShowErrorSnackbar(context,
                   message: "Password must be at least 8 characters!");
               return;
@@ -99,6 +91,7 @@ class ResetPasswordPage extends ConsumerWidget {
               SnackbarHelper.spaceShowSuccessSnackbar(context,
                   message: "Password has been changed!");
               Navigator.pop(context);
+              resetPasswordState.clearForm();
               Navigator.pushNamed(context, '/homePage');
             }
           },

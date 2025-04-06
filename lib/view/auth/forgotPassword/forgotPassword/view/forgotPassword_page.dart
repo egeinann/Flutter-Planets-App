@@ -62,7 +62,7 @@ class ForgotPasswordPage extends ConsumerWidget {
                                   message: "E-mail sent. Check it out!");
                             } else {
                               SnackbarHelper.spaceShowErrorSnackbar(context,
-                                  message: "Please enter a valid email.");
+                                  message: "Please enter a valid email!");
                             }
                           },
                           child: Text(

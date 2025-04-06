@@ -3,41 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
+import 'package:spaceandplanets_app/view/auth/usernameLogin/state/auth_state.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
+import 'package:spaceandplanets_app/widgets/snackbar.dart';
 import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
+class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends ConsumerState<LoginPage> {
-  late TextEditingController userController;
-  late TextEditingController passwordController;
-  double height = 500; // İlk değer statik olmalı.
-  Color color = SpaceColors.firstColor;
-  @override
-  void initState() {
-    super.initState();
-    userController = TextEditingController();
-    passwordController = TextEditingController();
-
-    Future.delayed(const Duration(milliseconds: 50), () {
-      if (mounted) {
-        setState(() {
-          height = 80.h;
-          color = SpaceColors.secondaryColor;
-        });
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double dynamicHeight = 50.h;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginController = ref.watch(loginProvider);
+    final loginState = ref.read(loginProvider.notifier);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -60,9 +38,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               alignment: Alignment.bottomCenter,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
-                height: height == 500 ? dynamicHeight : height,
+                height: 500,
                 decoration: BoxDecoration(
-                  color: color,
+                  color: Colors.grey,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -89,15 +67,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             children: [
                               SpaceTextField(
                                 prefixIcon: SpaceIcons.user,
-                                controller: userController,
-                                hintText: 'Username',
+                                controller: loginController.emailController,
+                                onChanged: (value) =>
+                                    loginState.updateEmail(value),
+                                hintText: 'Email',
                                 isPassword: false,
                               ),
                               const SizedBox(height: 5),
                               SpaceTextField(
                                 prefixIcon: SpaceIcons.password,
                                 showSuffixIcon: true,
-                                controller: passwordController,
+                                controller: loginController.passwordController,
+                                onChanged: (value) =>
+                                    loginState.updatePassword(value),
                                 hintText: 'Password',
                                 isPassword: true,
                               ),
@@ -105,9 +87,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                           const SizedBox(height: 10),
                           CustomOutlinedButton(
-                        
                             onPressed: () {
-                              Navigator.pushNamed(context, "/homePage");
+                              if (!loginState.isValidEmail()) {
+                                SnackbarHelper.spaceShowErrorSnackbar(
+                                  context,
+                                  message: "Please enter a valid email!",
+                                );
+                                return;
+                              } else if (!loginState.isValidPassword()) {
+                                SnackbarHelper.spaceShowErrorSnackbar(
+                                  context,
+                                  message: "Please enter a valid password!",
+                                );
+                                return;
+                              } else if (loginState.validateForm()) {
+                                FocusScope.of(context).unfocus();
+                                loginState.clearForm();
+                                SnackbarHelper.spaceShowSuccessSnackbar(context,
+                                    message: "Login successful!");
+                                Navigator.pushNamed(context, "/homePage");
+                              }
                             },
                             child: Text(
                               "login",
