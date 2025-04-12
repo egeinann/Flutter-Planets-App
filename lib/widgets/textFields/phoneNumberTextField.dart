@@ -3,16 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class SpacePhoneNumberTextField extends StatelessWidget {
+class SpacePhoneNumberTextField extends StatefulWidget {
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
   final FormFieldValidator<String>? validator;
-
-  // Maske formatter'ı final olarak tanımlayarak her build'de yeniden oluşturulmasını engelliyoruz
-  final maskFormatter = MaskTextInputFormatter(
-    mask: '(###) ###-####',
-    filter: {"#": RegExp(r'[0-9]')},
-  );
 
   SpacePhoneNumberTextField({
     super.key,
@@ -22,19 +16,46 @@ class SpacePhoneNumberTextField extends StatelessWidget {
   });
 
   @override
+  _SpacePhoneNumberTextFieldState createState() =>
+      _SpacePhoneNumberTextFieldState();
+}
+
+class _SpacePhoneNumberTextFieldState extends State<SpacePhoneNumberTextField> {
+  final maskFormatter = MaskTextInputFormatter(
+    mask: '(###) ###-####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    // Başlangıçta +90 ekleyelim, eğer controller boşsa
+    if (widget.controller.text.isEmpty) {
+      widget.controller.text = '+90 ';
+      widget.controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: widget.controller.text.length),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
       child: TextFormField(
-        controller: controller,
-        onChanged: onChanged,
-        validator: validator,
+        controller: widget.controller,
+        onChanged: widget.onChanged,
+        validator: widget.validator,
         keyboardType: TextInputType.phone,
         inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          maskFormatter,
+          FilteringTextInputFormatter.digitsOnly, // sadece rakamlar
+          // Telefon numarasına maske ekliyoruz ama +90'ın değişmesini engelliyoruz
+          MaskTextInputFormatter(
+            mask: '+90 (###) ###-####',
+            filter: {"#": RegExp(r'[0-9]')},
+          ),
         ],
         decoration: InputDecoration(
           hintText: 'Phone number',

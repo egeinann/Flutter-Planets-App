@@ -74,16 +74,22 @@ class RegisterPage extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               SpaceTextField(
+                controller: registerState.nameController,
+                hintText: "Name",
+                onChanged: (value) => registerController.updateName(value),
+              ),
+              const SizedBox(height: 5),
+              SpaceTextField(
                 controller: registerState.emailController,
                 hintText: "E-mail",
                 onChanged: (value) => registerController.updateEmail(value),
               ),
               const SizedBox(height: 5),
-              SpacePhoneNumberTextField(
-                controller: registerState.phoneNumberController,
-                onChanged: (value) =>
-                    registerController.updatePhoneNumber(value),
-              ),
+              // SpacePhoneNumberTextField(
+              //   controller: registerState.phoneNumberController,
+              //   onChanged: (value) =>
+              //       registerController.updatePhoneNumber(value),
+              // ),
             ],
           ),
           const SizedBox(height: 20),
@@ -118,10 +124,15 @@ class RegisterPage extends StatelessWidget {
             onPressed: () {
               final registerStateNotifier = ref.read(registerProvider.notifier);
 
+              if (!registerStateNotifier.isValidName()) {
+                SnackbarHelper.spaceShowErrorSnackbar(context,
+                    message: "Please enter a valid name!");
+                return;
+              }
+              
               if (!registerStateNotifier.isValidEmail()) {
                 SnackbarHelper.spaceShowErrorSnackbar(context,
-                    message:
-                        "Please enter a valid email!");
+                    message: "Please enter a valid email!");
                 return;
               }
 
@@ -137,74 +148,80 @@ class RegisterPage extends StatelessWidget {
                 return;
               }
 
-              if (!registerStateNotifier.isValidPhoneNumber()) {
-                SnackbarHelper.spaceShowErrorSnackbar(context,
-                    message: "Please enter a valid phone number!");
-                return;
-              }
-              CustomBottomSheet.show(
-                context: context,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "SMS Verification",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 5),
-                    FittedBox(
-                      child: SpaceSmsTextField(
-                        controller: registerState.smsCodeController,
-                        onChanged: (value) {
-                          ref
-                              .read(registerProvider.notifier)
-                              .updateSmsCode(value);
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomOutlinedButton(
-                          onPressed: () {
-                            
-                          },
-                          child: Text(
-                            "Send again",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ),
-                        CustomOutlinedButton(
-                          onPressed: () {
-                            if (!registerStateNotifier.isValidSmsCode()) {
-                              SnackbarHelper.spaceShowErrorSnackbar(context,
-                                  message: "Verification failed!");
-                              return;
-                            }
-                            // eğer giriş yapılıyorsa...
-                            registerStateNotifier.clearForm();
-                            SnackbarHelper.spaceShowSuccessSnackbar(context,
-                                message: "SMS Verification");
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/homePage',
-                              (route) => false,
-                            );
-                          },
-                          child: Text(
-                            "Check",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              // if (!registerStateNotifier.isValidPhoneNumber()) {
+              //   SnackbarHelper.spaceShowErrorSnackbar(context,
+              //       message: "Please enter a valid phone number!");
+              //   return;
+              // }
+              registerStateNotifier.submitRegistration();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/homePage',
+                (route) => false,
               );
+              // CustomBottomSheet.show(
+              //   context: context,
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       Text(
+              //         "SMS Verification",
+              //         style: Theme.of(context).textTheme.bodySmall,
+              //       ),
+              //       const SizedBox(height: 5),
+              //       FittedBox(
+              //         child: SpaceSmsTextField(
+              //           controller: registerState.smsCodeController,
+              //           onChanged: (value) {
+              //             ref
+              //                 .read(registerProvider.notifier)
+              //                 .updateSmsCode(value);
+              //           },
+              //         ),
+              //       ),
+              //       const SizedBox(height: 5),
+              //       Row(
+              //         mainAxisSize: MainAxisSize.max,
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           CustomOutlinedButton(
+              //             onPressed: () {
+
+              //             },
+              //             child: Text(
+              //               "Send again",
+              //               style: Theme.of(context).textTheme.bodyLarge,
+              //             ),
+              //           ),
+              //           CustomOutlinedButton(
+              //             onPressed: () {
+              //               if (!registerStateNotifier.isValidSmsCode()) {
+              //                 SnackbarHelper.spaceShowErrorSnackbar(context,
+              //                     message: "Verification failed!");
+              //                 return;
+              //               }
+              //               // eğer giriş yapılıyorsa...
+              //               registerStateNotifier.clearForm();
+              //               SnackbarHelper.spaceShowSuccessSnackbar(context,
+              //                   message: "SMS Verification");
+              //               Navigator.pushNamedAndRemoveUntil(
+              //                 context,
+              //                 '/homePage',
+              //                 (route) => false,
+              //               );
+              //             },
+              //             child: Text(
+              //               "Check",
+              //               style: Theme.of(context).textTheme.bodyLarge,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // );
             },
             child: Text(
               "Register",
