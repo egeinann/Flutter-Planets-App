@@ -3,10 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
-import 'package:spaceandplanets_app/view/auth/usernameLogin/state/auth_state.dart';
+import 'package:spaceandplanets_app/view/auth/usernameLogin/state/login_state.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
-import 'package:spaceandplanets_app/widgets/snackbar.dart';
 import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
 class LoginPage extends ConsumerWidget {
@@ -88,25 +87,7 @@ class LoginPage extends ConsumerWidget {
                           const SizedBox(height: 10),
                           CustomOutlinedButton(
                             onPressed: () {
-                              if (!loginState.isValidEmail()) {
-                                SnackbarHelper.spaceShowErrorSnackbar(
-                                  context,
-                                  message: "Please enter a valid email!",
-                                );
-                                return;
-                              } else if (!loginState.isValidPassword()) {
-                                SnackbarHelper.spaceShowErrorSnackbar(
-                                  context,
-                                  message: "Please enter a valid password!",
-                                );
-                                return;
-                              } else if (loginState.validateForm()) {
-                                FocusScope.of(context).unfocus();
-                                loginState.clearForm();
-                                SnackbarHelper.spaceShowSuccessSnackbar(context,
-                                    message: "Login successful!");
-                                Navigator.pushNamed(context, "/homePage");
-                              }
+                              loginState.signIn(context, loginState);
                             },
                             child: Text(
                               "login",

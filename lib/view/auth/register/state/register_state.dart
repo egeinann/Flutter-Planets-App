@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spaceandplanets_app/models/userModel.dart';
+import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class RegisterState extends StateNotifier<RegisterForm> {
   RegisterState() : super(RegisterForm());
@@ -30,27 +31,96 @@ class RegisterState extends StateNotifier<RegisterForm> {
     super.dispose();
   }
 
+  // *** FIREBASE ILE KAYIT OLMA FONKSIYONU ***
+  final firebaseAuth = FirebaseAuth.instance;
   final userCollection = FirebaseFirestore.instance.collection('users');
+  Future<void> submitRegistration(BuildContext context) async {
+    final name = state.nameController.text.trim();
+    final email = state.emailController.text.trim();
+    final password = state.passwordController.text.trim();
 
-  Future<void> registerUser(UserModel user) async {
+    // 1. Form doğrulama
+    if (!isValidName()) {
+      SnackbarHelper.spaceShowErrorSnackbar(
+        context,
+        message: "Please enter a valid name!",
+      );
+      return;
+    }
+
+    if (!isValidEmail()) {
+      SnackbarHelper.spaceShowErrorSnackbar(
+        context,
+        message: "Please enter a valid email!",
+      );
+      return;
+    }
+
+    if (!isValidPassword()) {
+      SnackbarHelper.spaceShowErrorSnackbar(
+        context,
+        message: "Password must be at least 8 characters!",
+      );
+      return;
+    }
+
+    if (!passwordsMatch()) {
+      SnackbarHelper.spaceShowErrorSnackbar(
+        context,
+        message: "Passwords do not match!",
+      );
+      return;
+  }
+
+    // 2. Yükleme göstergesini aç
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     try {
-      await userCollection.add(user.toMap());
+      // 3. Firebase Auth ile kayıt
+      final UserCredential userCredential =
+          await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // 4. Firestore’a kullanıcı bilgisi ekle
+    final user = UserModel(
+        name: name,
+        email: email,
+        password: password,
+    );
+
+      await userCollection.doc(userCredential.user!.uid).set(user.toMap());
+
+      // 5. Başarılıysa yükleme ekranını kapat ve yönlendir
+      Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/homePage',
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context); // hata olsa bile loading kapat
+      SnackbarHelper.spaceShowErrorSnackbar(
+        context,
+        message: e.message ?? "Firebase error!",
+      );
     } catch (e) {
+      Navigator.pop(context); // hata olsa bile loading kapat
       print('Kullanıcı kaydedilirken hata oluştu: $e');
+      SnackbarHelper.spaceShowErrorSnackbar(
+        context,
+        message: "An error occurred during registration.",
+      );
     }
   }
 
-  void submitRegistration() {
-    final user = UserModel(
-      name:
-          state.emailController.text, // Kullanıcı adı yerine email kullanılıyor
-      email: state.emailController.text,
-      password: state.passwordController.text,
-    );
-
-    // Kullanıcıyı Firebase'e kaydet
-    registerUser(user);
-  }
 
   void updateName(String value) {
     state.nameController.text =
@@ -78,21 +148,21 @@ class RegisterState extends StateNotifier<RegisterForm> {
   // }
 
   bool isValidName() {
-    String name = state.nameController.text.trim();
-    return name.isNotEmpty && name.length >= 3;
+    return state.nameController.text.trim().isNotEmpty;
   }
 
   bool isValidEmail() {
-    String email = state.emailController.text.trim();
+    final email = state.emailController.text.trim();
     return email.isNotEmpty && email.contains("@") && email.contains(".");
   }
 
   bool isValidPassword() {
-    return state.passwordController.text.length >= 8;
+    return state.passwordController.text.trim().length >= 8;
   }
 
   bool passwordsMatch() {
-    return state.passwordController.text == state.passwordAgainController.text;
+    return state.passwordController.text.trim() ==
+        state.passwordAgainController.text.trim();
   }
 
   // bool isValidPhoneNumber() {
