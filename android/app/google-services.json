@@ -12,7 +12,20 @@
           "package_name": "com.egeinan.spaceandplanets_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "855073902379-n2mrsgld4qmj50mkrm3vs377bbuo3876.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.egeinan.spaceandplanets_app",
+            "certificate_hash": "544eb9d342870a0c6fccdce28c2ef612e7774730"
+          }
+        },
+        {
+          "client_id": "855073902379-2qhb59doq4bjs2997stpbl4dsdl6ock6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBRrT5J5poncsPuXhfudaIa4u_xCfyBhJs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855073902379-2qhb59doq4bjs2997stpbl4dsdl6ock6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

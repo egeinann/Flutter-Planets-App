@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
+import 'package:spaceandplanets_app/view/onboarding/state/google_state.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
+import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class OnboardingPageLogin extends ConsumerWidget {
   const OnboardingPageLogin({super.key});
@@ -51,7 +53,7 @@ class OnboardingPageLogin extends ConsumerWidget {
                           children: [
                             loginWithUsername(context),
                             const SizedBox(height: 5),
-                            loginWithGoogle(context),
+                            loginWithGoogle(context, ref),
                           ],
                         ),
                         register(context),
@@ -115,7 +117,6 @@ class OnboardingPageLogin extends ConsumerWidget {
   // *** LOGIN USERNAME ***
   Widget loginWithUsername(BuildContext context) {
     return CustomOutlinedButton(
-  
       onPressed: () {
         Navigator.pushNamed(context, '/loginPage');
         print("object");
@@ -139,9 +140,24 @@ class OnboardingPageLogin extends ConsumerWidget {
   }
 
   // *** LOGIN GOOGLE ***
-  Widget loginWithGoogle(BuildContext context) {
+  Widget loginWithGoogle(BuildContext context, WidgetRef ref) {
     return CustomOutlinedButton(
-      onPressed: () {},
+      onPressed: () async {
+        final user =
+            await ref.read(googleSignInProvider.notifier).signInWithGoogle();
+        if (user != null) {
+          // Giriş başarılı, verileri al ve yönlendir
+          Navigator.of(context).pushNamed(
+            '/homePage',
+            arguments: user,
+          );
+        } else {
+          // Giriş başarısız veya kullanıcı vazgeçti
+          print('Giriş iptal edildi veya başarısız.');
+          // İsteğe bağlı: Kullanıcıya bir hata mesajı göster
+          SnackbarHelper.spaceShowErrorSnackbar(context, message: "TRY AGAIN!");
+        }
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

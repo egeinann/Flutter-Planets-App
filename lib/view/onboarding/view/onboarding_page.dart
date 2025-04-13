@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-import 'package:spaceandplanets_app/view/onboarding/state/onboarding_state.dart';
+import 'package:spaceandplanets_app/view/onboarding/state/google_state.dart';
 import 'package:spaceandplanets_app/widgets/animatedTexts.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/padding.dart';
