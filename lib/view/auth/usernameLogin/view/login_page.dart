@@ -38,9 +38,9 @@ class LoginPage extends ConsumerWidget {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
                 height: 500,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.grey,
-                  borderRadius: const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   ),
@@ -65,6 +65,7 @@ class LoginPage extends ConsumerWidget {
                           Column(
                             children: [
                               SpaceTextField(
+                                maxLength: 25,
                                 prefixIcon: SpaceIcons.user,
                                 controller: loginController.emailController,
                                 onChanged: (value) =>

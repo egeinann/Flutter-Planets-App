@@ -19,44 +19,65 @@ final fadeInProvider = StateNotifierProvider<OpacityNotifier, double>((ref) {
   return OpacityNotifier();
 });
 
+
 // *** GOOGLE GİRİŞİ İÇİN STATE NOTIFIER ***
-class GoogleNotifier extends StateNotifier<GoogleSignInAccount?> {
-  GoogleNotifier() : super(null);
+class GoogleState {
+  final GoogleSignInAccount? account;
+  final bool isLoading;
+
+  GoogleState({this.account, this.isLoading = false});
+
+  GoogleState copyWith({
+    GoogleSignInAccount? account,
+    bool? isLoading,
+  }) {
+    return GoogleState(
+      account: account ?? this.account,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
+}
+
+class GoogleNotifier extends StateNotifier<GoogleState> {
+  GoogleNotifier() : super(GoogleState());
 
   Future<User?> signInWithGoogle() async {
     try {
-      // Oturum açmaya başla
+      state = state.copyWith(isLoading: true); // LOADING başlat
+      
       final firebaseAuth = FirebaseAuth.instance;
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final googleUser = await GoogleSignIn().signIn();
 
-      // Kullanıcı vazgeçerse null döner, bu durumda fonksiyonu sonlandır
       if (googleUser == null) {
+        state = state.copyWith(isLoading: false); // Kullanıcı vazgeçti
         return null;
       }
 
-      // Bilgileri al
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final googleAuth = await googleUser.authentication;
 
-      // Nesne oluştur
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Girişi yap
       final userCredential =
           await firebaseAuth.signInWithCredential(credential);
+
+      state = state.copyWith(
+        account: googleUser,
+        isLoading: false,
+      );
+
       return userCredential.user;
     } catch (e) {
-      // Hata durumunda null döndür veya hata yönetimini özelleştir
       print('Google Sign-In hatası: $e');
+      state = state.copyWith(isLoading: false); // Hata olursa da durdur
       return null;
     }
   }
 }
 
 final googleSignInProvider =
-    StateNotifierProvider<GoogleNotifier, GoogleSignInAccount?>((ref) {
+    StateNotifierProvider<GoogleNotifier, GoogleState>((ref) {
   return GoogleNotifier();
 });

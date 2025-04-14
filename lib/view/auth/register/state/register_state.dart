@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:spaceandplanets_app/models/userModel.dart';
+import 'package:spaceandplanets_app/widgets/lottie/lotties.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class RegisterState extends StateNotifier<RegisterForm> {
@@ -70,14 +72,14 @@ class RegisterState extends StateNotifier<RegisterForm> {
         message: "Passwords do not match!",
       );
       return;
-  }
+    }
 
     // 2. Yükleme göstergesini aç
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
+      builder: (context) => Center(
+        child: Lottie.asset(LottieAssets.spaceLoading),
       ),
     );
 
@@ -88,13 +90,17 @@ class RegisterState extends StateNotifier<RegisterForm> {
         email: email,
         password: password,
       );
+      await userCredential.user!.updateDisplayName(name);
+      await userCredential.user!.reload(); // Güncel kullanıcıyı çek
+
+      await userCredential.user?.updateDisplayName(name);
 
       // 4. Firestore’a kullanıcı bilgisi ekle
-    final user = UserModel(
+      final user = UserModel(
         name: name,
         email: email,
         password: password,
-    );
+      );
 
       await userCollection.doc(userCredential.user!.uid).set(user.toMap());
 
@@ -120,7 +126,6 @@ class RegisterState extends StateNotifier<RegisterForm> {
       );
     }
   }
-
 
   void updateName(String value) {
     state.nameController.text =

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/view/onboarding/state/google_state.dart';
+import 'package:spaceandplanets_app/widgets/lottie/lotties.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class OnboardingPageLogin extends ConsumerWidget {
   const OnboardingPageLogin({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final googleState = ref.watch(googleSignInProvider);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
@@ -64,6 +69,13 @@ class OnboardingPageLogin extends ConsumerWidget {
               ),
             ],
           ),
+          googleState.isLoading
+              ? Center(
+                  child: Center(
+                    child: Lottie.asset(LottieAssets.spaceLoading),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );

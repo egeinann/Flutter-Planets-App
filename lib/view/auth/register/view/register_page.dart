@@ -70,12 +70,14 @@ class RegisterPage extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               SpaceTextField(
+                maxLength: 15,
                 controller: registerState.nameController,
                 hintText: "Name",
                 onChanged: (value) => registerController.updateName(value),
               ),
               const SizedBox(height: 5),
               SpaceTextField(
+                maxLength: 30,
                 controller: registerState.emailController,
                 hintText: "E-mail",
                 onChanged: (value) => registerController.updateEmail(value),

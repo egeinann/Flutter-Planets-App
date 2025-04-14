@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/models/planetContainerModel.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 
-import 'package:spaceandplanets_app/view/app/navigation/planets/planet_page.dart';
+import 'package:spaceandplanets_app/view/app/navigation/navigationPages/planets/planet_page.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 
 class PlanetsPage extends StatelessWidget {

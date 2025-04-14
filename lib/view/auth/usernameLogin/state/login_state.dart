@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:spaceandplanets_app/widgets/lottie/lotties.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class LoginState extends StateNotifier<LoginForm> {
@@ -42,8 +45,8 @@ class LoginState extends StateNotifier<LoginForm> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
+        builder: (context) => Center(
+          child: Lottie.asset(LottieAssets.spaceLoading),
         ),
       );
 
@@ -54,8 +57,30 @@ class LoginState extends StateNotifier<LoginForm> {
           password: password,
         );
 
-        // Başarılı giriş sonrası yapılacaklar
+// Başarılı giriş sonrası yapılacaklar
         print("Giriş başarılı: ${userCredential.user?.uid}");
+
+        final user = userCredential.user;
+
+// Eğer displayName Firebase Authentication'da boşsa, Firestore'dan alalım
+        if (user != null &&
+            (user.displayName == null || user.displayName!.isEmpty)) {
+          // Firestore'dan kullanıcı verilerini al
+          final userDoc = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+
+          // Firestore'dan istenen name verisini al
+          final nameFromFirestore = userDoc.data()?['name'];
+
+          // Eğer Firestore'dan name verisi varsa, Firebase Auth'ta güncelle
+          if (nameFromFirestore != null) {
+            await user.updateDisplayName(nameFromFirestore);
+            await user.reload(); // güncellemeyi görmek için
+          }
+        }
+
         loginState.clearForm();
 
         // Loading dialog'u kapat
