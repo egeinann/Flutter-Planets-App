@@ -117,6 +117,7 @@ class RegisterState extends StateNotifier<RegisterForm> {
         context,
         message: e.message ?? "Firebase error!",
       );
+      state.emailController.clear();
     } catch (e) {
       Navigator.pop(context); // hata olsa bile loading kapat
       print('Kullanıcı kaydedilirken hata oluştu: $e');
