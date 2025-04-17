@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
-import 'package:spaceandplanets_app/view/auth/forgotPassword/resetPassword/state/resetPassword_state.dart';
+import 'package:spaceandplanets_app/utils/lotties.dart';
+import 'package:spaceandplanets_app/view/app/navigation/navigationPages/profile/resetPassword/state/resetPassword_state.dart';
 import 'package:spaceandplanets_app/widgets/appbar.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
@@ -45,12 +47,13 @@ class ResetPasswordPage extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Your email", style: Theme.of(context).textTheme.bodySmall),
+            Text("Your current password",
+                style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: 5),
             SpaceTextField(
-              controller: resetPasswordController.emailController,
-              onChanged: (value) => resetPasswordState.updateUsername(value),
-              hintText: "Email",
+              controller: resetPasswordController.oldPasswordController,
+
+              hintText: "Old password",
             ),
           ],
         ),
@@ -58,19 +61,17 @@ class ResetPasswordPage extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Password", style: Theme.of(context).textTheme.bodySmall),
+            Text("New password", style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: 5),
             SpaceTextField(
-              controller: resetPasswordController.passwordController,
-              onChanged: (value) => resetPasswordState.updatePassword(value),
+              controller: resetPasswordController.newPasswordController,
+
               hintText: "New password",
               isPassword: true,
             ),
             const SizedBox(height: 5),
             SpaceTextField(
-              controller: resetPasswordController.confirmPasswordController,
-              onChanged: (value) =>
-                  resetPasswordState.updateConfirmPassword(value),
+              controller: resetPasswordController.confirmNewPasswordController,
               hintText: "New password again",
               isPassword: true,
             ),
@@ -78,29 +79,59 @@ class ResetPasswordPage extends ConsumerWidget {
         ),
         const SizedBox(height: 20),
         CustomOutlinedButton(
-          onPressed: () {
-            if (!resetPasswordState.isValidPassword()) {
+          onPressed: () async {
+            if (!resetPasswordState.isValidOldPassword()) {
+              SnackbarHelper.spaceShowErrorSnackbar(context,
+                  message: "Please enter your current password!");
+              return;
+            } else if (!resetPasswordState.isValidNewPassword()) {
               SnackbarHelper.spaceShowErrorSnackbar(context,
                   message: "Password must be at least 8 characters!");
               return;
-            } else if (!resetPasswordState.isPasswordMatch()) {
+            } else if (!resetPasswordState.isNewPasswordMatch()) {
               SnackbarHelper.spaceShowErrorSnackbar(context,
                   message: "Passwords do not match!");
               return;
-            } else {
+            }
+
+            // Şifre değiştirme işlemi başlamadan önce Lottie animasyonunu göster
+            showLoadingDialog(context);
+
+            // Şifre değiştirme işlemi
+            final errorMessage = await resetPasswordState.changePassword();
+
+            // Animasyonu kaldır ve işlemi sonlandır
+            Navigator.pop(context); // Loading dialog'u kapat
+
+            if (errorMessage == null) {
               SnackbarHelper.spaceShowSuccessSnackbar(context,
                   message: "Password has been changed!");
-              Navigator.pop(context);
               resetPasswordState.clearForm();
               Navigator.pushNamed(context, '/homePage');
+            } else {
+              SnackbarHelper.spaceShowErrorSnackbar(context,
+                  message: errorMessage);
             }
           },
           child: Text(
-            "Reset Password",
+            "Reset",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ],
+    );
+  }
+
+  // *** LOADING DIALOG ***
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Center(
+        child: Lottie.asset(
+          LottieAssets.spaceLoading, // Lottie animasyonu
+        ),
+      ),
     );
   }
 

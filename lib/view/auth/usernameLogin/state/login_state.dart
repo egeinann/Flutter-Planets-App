@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:spaceandplanets_app/widgets/lottie/lotties.dart';
+import 'package:spaceandplanets_app/utils/lotties.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class LoginState extends StateNotifier<LoginForm> {
@@ -92,6 +92,7 @@ class LoginState extends StateNotifier<LoginForm> {
           '/homePage',
           (route) => false,
         );
+        FocusScope.of(context).unfocus();
       } on FirebaseAuthException catch (e) {
         Navigator.pop(context); // Hata varsa loading kapat
         SnackbarHelper.spaceShowErrorSnackbar(
@@ -106,13 +107,7 @@ class LoginState extends StateNotifier<LoginForm> {
     }
   }
 
-  void updateEmail(String value) {
-    state.emailController.text = value.trim();
-  }
 
-  void updatePassword(String value) {
-    state.passwordController.text = value.trim();
-  }
 
   bool isValidEmail() {
     String email = state.emailController.text.trim();

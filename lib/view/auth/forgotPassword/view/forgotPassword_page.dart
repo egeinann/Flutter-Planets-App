@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
-import 'package:spaceandplanets_app/view/auth/forgotPassword/forgotPassword/state/forgotPassword_state.dart';
+import 'package:spaceandplanets_app/view/auth/forgotPassword/state/forgotPassword_state.dart';
 import 'package:spaceandplanets_app/widgets/appbar.dart';
 import 'package:spaceandplanets_app/widgets/modalBottomSheet.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';

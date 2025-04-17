@@ -24,10 +24,8 @@ class HomePage extends ConsumerWidget {
         leading: IconButton(
           icon: const Icon(SpaceIcons.logout),
           onPressed: () async {
-            await authService.signOut();
-            // İsteğe bağlı: login ekranına geri dön
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/onboardingPageLogin", (route) => false);
+            await authService.signOut(context);
+            
           },
         ),
         centerTitle: true,

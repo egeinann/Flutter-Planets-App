@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spaceandplanets_app/models/userModel.dart';
-import 'package:spaceandplanets_app/widgets/lottie/lotties.dart';
+import 'package:spaceandplanets_app/utils/lotties.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
 class RegisterState extends StateNotifier<RegisterForm> {
