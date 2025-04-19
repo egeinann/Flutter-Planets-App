@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:spaceandplanets_app/view/app/navigation/homePage.dart';
+import 'package:spaceandplanets_app/utils/lotties.dart';
+import 'package:spaceandplanets_app/view/app/homePage.dart';
 import 'package:spaceandplanets_app/view/auth/forgotPassword/view/forgotPassword_page.dart';
-import 'package:spaceandplanets_app/view/app/navigation/navigationPages/profile/resetPassword/view/resetpassword_page.dart';
+import 'package:spaceandplanets_app/view/app/navigationPages/profile/resetPassword/view/resetpassword_page.dart';
 import 'package:spaceandplanets_app/view/auth/register/view/register_page.dart';
 import 'package:spaceandplanets_app/view/auth/usernameLogin/view/login_page.dart';
 import 'package:spaceandplanets_app/view/onboarding/view/onboarding_page.dart';
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
           initialRoute: "/onboardingPage", // başlangıç sayfası
           // aşağındaki rotalar sayfalar arası geçiş için sadece tanıtıldı. Nerede kullanılırsa orada çağırılır
           routes: {
-            "/onboardingPage": (context) => const OnboardingPage(),
+            "/onboardingPage": (context) => AuthWrapper(),
             "/onboardingPageLogin": (context) => const OnboardingPageLogin(),
             "/loginPage": (context) => const LoginPage(),
             "/homePage": (context) => const HomePage(),
@@ -50,6 +53,33 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // Kullanıcı login olmuş
+        if (snapshot.connectionState == ConnectionState.active) {
+          final user = snapshot.data;
+          if (user != null) {
+            return const HomePage();
+          } else {
+            return const OnboardingPage();
+          }
+        }
+
+        // Yükleniyor
+        return Scaffold(
+          body: Center(
+            child: Lottie.asset(LottieAssets.spaceLoading),
+          ),
+        );
+      },
     );
   }
 }

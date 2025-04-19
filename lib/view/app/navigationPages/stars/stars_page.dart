@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:spaceandplanets_app/models/starContainerModel.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
-import 'package:spaceandplanets_app/view/app/navigation/navigationPages/stars/star_page.dart';
+import 'package:spaceandplanets_app/view/app/navigationPages/stars/star_page.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 
 class StarsPage extends StatelessWidget {

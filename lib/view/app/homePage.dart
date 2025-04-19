@@ -5,10 +5,10 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:spaceandplanets_app/services/auth_service.dart';
 import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/icons.dart';
-import 'package:spaceandplanets_app/view/app/navigation/navigationPages/planets/planets_page.dart';
-import 'package:spaceandplanets_app/view/app/navigation/navigationPages/profile/profile_page.dart';
-import 'package:spaceandplanets_app/view/app/navigation/navigationPages/stars/stars_page.dart';
-import 'package:spaceandplanets_app/view/app/navigation/state/NavigationState.dart';
+import 'package:spaceandplanets_app/view/app/navigationPages/planets/planets_page.dart';
+import 'package:spaceandplanets_app/view/app/navigationPages/profile/profile_page.dart';
+import 'package:spaceandplanets_app/view/app/navigationPages/stars/stars_page.dart';
+import 'package:spaceandplanets_app/view/app/state/NavigationState.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
