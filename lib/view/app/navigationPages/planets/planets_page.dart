@@ -100,50 +100,34 @@ class PlanetsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final meteorsWidget = meteors();
+    final topTitleAndImageWidget = topTitleAndImage(context);
+    final planetsScrollWidget = planetsScroll();
     return Scaffold(
       backgroundColor: SpaceColors.backgroundColor,
       body: Stack(
         alignment: Alignment.center,
-        children: [
-          meteors(),
-          planetContainersListViewBuilder(context),
+        children: [ 
+          meteorsWidget,
+          Column(
+            children: [
+              topTitleAndImageWidget,
+              planetsScrollWidget,
+            ],
+          ),
         ],
       ),
     );
   }
 
-  // *** LISTVIEW BUILDER ***
-  Widget planetContainersListViewBuilder(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Explore our solar system !!",
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                ),
-              ),
-              const Expanded(
-                child: Image(
-                  image: AssetImage("assets/images/blue_stars.png"),
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 55.h,
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            itemCount: planetContainers.length,
-            itemBuilder: (context, index) {
+  // *** PLANETS SCROLL ***
+  SizedBox planetsScroll() {
+    return SizedBox(
+      height: 55.h,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(PlanetsPage.planetContainers.length, (index) {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -172,12 +156,14 @@ class PlanetsPage extends StatelessWidget {
                             height: 35.h,
                             padding: EdgeInsets.only(top: 10.h),
                             decoration: BoxDecoration(
-                              color: planetContainers[index].backgroundColor,
+                            color: PlanetsPage
+                                .planetContainers[index].backgroundColor,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
                                   color:
-                                      planetContainers[index].backgroundColor,
+                                      PlanetsPage
+                                    .planetContainers[index].backgroundColor,
                                   blurRadius: 7,
                                   spreadRadius: 5,
                                 ),
@@ -188,14 +174,14 @@ class PlanetsPage extends StatelessWidget {
                               children: [
                                 const Spacer(),
                                 Text(
-                                  planetContainers[index].name,
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                PlanetsPage.planetContainers[index].name,
+                                style: Theme.of(context).textTheme.bodyLarge,
                                   textAlign: TextAlign.center,
                                 ),
                                 const Spacer(),
                                 Text(
-                                  planetContainers[index].description,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                PlanetsPage.planetContainers[index].description,
+                                style: Theme.of(context).textTheme.bodySmall,
                                   textAlign: TextAlign.center,
                                 ),
                                 SizedBox(height: 2.h),
@@ -205,9 +191,9 @@ class PlanetsPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.topCenter,
                             child: Image.asset(
-                              planetContainers[index].image,
+                            PlanetsPage.planetContainers[index].image,
                               fit: BoxFit.scaleDown,
-                              height: planetContainers[index].size,
+                            height: PlanetsPage.planetContainers[index].size,
                             ),
                           ),
                         ],
@@ -215,14 +201,39 @@ class PlanetsPage extends StatelessWidget {
                     );
                   },
                   openBuilder: (context, action) {
-                    return PlanetPage(planet: planetContainers[index]);
+                  return PlanetPage(
+                      planet: PlanetsPage.planetContainers[index]);
                   },
                 ),
               );
-            },
-          ),
+          }),
         ),
-      ],
+      ),
+    );
+  }
+
+  // *** TOP TITLE AND IMAGE ***
+  Expanded topTitleAndImage(BuildContext context) {
+    return Expanded(
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                "Explore our solar system !!",
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+            ),
+          ),
+          const Expanded(
+            child: Image(
+              image: AssetImage("assets/images/blue_stars.png"),
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

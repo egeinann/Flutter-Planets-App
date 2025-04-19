@@ -10,27 +10,16 @@ import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 
-class OnboardingPageLogin extends ConsumerWidget {
+class OnboardingPageLogin extends StatelessWidget {
   const OnboardingPageLogin({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final googleState = ref.watch(googleSignInProvider);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
-          Hero(
-            tag: "meteor",
-            child: Center(
-              child: MeteorWidget(
-                duration: const Duration(seconds: 3),
-                numberOfMeteors: 100,
-                child: Container(),
-              ),
-            ),
-          ),
+          meteors(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,7 +47,7 @@ class OnboardingPageLogin extends ConsumerWidget {
                           children: [
                             loginWithUsername(context),
                             const SizedBox(height: 5),
-                            loginWithGoogle(context, ref),
+                            loginWithGoogle(context),
                           ],
                         ),
                         register(context),
@@ -69,14 +58,36 @@ class OnboardingPageLogin extends ConsumerWidget {
               ),
             ],
           ),
-          googleState.isLoading
-              ? Center(
-                  child: Center(
-                    child: Lottie.asset(LottieAssets.spaceLoading),
-                  ),
-                )
-              : const SizedBox.shrink(),
+          loadingLottie(),
         ],
+      ),
+    );
+  }
+
+  // *** LOADING LOTTIE ***
+  Consumer loadingLottie() {
+    return Consumer(
+      builder: (context, ref, child) {
+        final googleState = ref.watch(googleSignInProvider);
+        return googleState.isLoading
+            ? Center(
+                    child: Lottie.asset(LottieAssets.spaceLoading),
+              )
+            : const SizedBox.shrink();
+      },
+    );
+  }
+
+  // *** METEOR ANIMATION ***
+  Hero meteors() {
+    return Hero(
+      tag: "meteor",
+      child: Center(
+        child: MeteorWidget(
+          duration: const Duration(seconds: 3),
+          numberOfMeteors: 100,
+          child: Container(),
+        ),
       ),
     );
   }
@@ -152,40 +163,46 @@ class OnboardingPageLogin extends ConsumerWidget {
   }
 
   // *** LOGIN GOOGLE ***
-  Widget loginWithGoogle(BuildContext context, WidgetRef ref) {
-    return CustomOutlinedButton(
-      onPressed: () async {
-        final user =
-            await ref.read(googleSignInProvider.notifier).signInWithGoogle();
-        if (user != null) {
-          // Giriş başarılı, verileri al ve yönlendir
-          Navigator.of(context).pushNamed(
-            '/homePage',
-            arguments: user,
-          );
-        } else {
-          // Giriş başarısız veya kullanıcı vazgeçti
-          print('Giriş iptal edildi veya başarısız.');
-          // İsteğe bağlı: Kullanıcıya bir hata mesajı göster
-          SnackbarHelper.spaceShowErrorSnackbar(context, message: "TRY AGAIN!");
-        }
+  Widget loginWithGoogle(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        return CustomOutlinedButton(
+          onPressed: () async {
+            final user = await ref
+                .read(googleSignInProvider.notifier)
+                .signInWithGoogle();
+            if (user != null) {
+              // Giriş başarılı, verileri al ve yönlendir
+              Navigator.of(context).pushNamed(
+                '/homePage',
+                arguments: user,
+              );
+            } else {
+              // Giriş başarısız veya kullanıcı vazgeçti
+              print('Giriş iptal edildi veya başarısız.');
+              // İsteğe bağlı: Kullanıcıya bir hata mesajı göster
+              SnackbarHelper.spaceShowErrorSnackbar(context,
+                  message: "TRY AGAIN!");
+            }
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Image(
+                image: AssetImage("assets/images/google.png"),
+                fit: BoxFit.scaleDown,
+                height: 20,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "Login with Google",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        );
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Image(
-            image: AssetImage("assets/images/google.png"),
-            fit: BoxFit.scaleDown,
-            height: 20,
-          ),
-          const SizedBox(width: 10),
-          Text(
-            "Login with Google",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ],
-      ),
     );
   }
 }

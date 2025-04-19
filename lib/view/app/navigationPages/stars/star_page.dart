@@ -13,6 +13,11 @@ class StarPage extends StatelessWidget {
   final double featuresHeight = 100.h;
   @override
   Widget build(BuildContext context) {
+    final starImageAnimatedWidget = starImageAnimated();
+    final topAppBarWidget = topAppBar(context);
+    final featuresAnimatedWidget = featuresAnimated();
+    final starlongDescriptionWidget = starLongDescription(context);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -22,10 +27,10 @@ class StarPage extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            starImageAnimated(),
-            topAppBar(context),
-            featuresAnimated(),
-            starLongDescription(context),
+            starImageAnimatedWidget,
+            topAppBarWidget,
+            featuresAnimatedWidget,
+            starlongDescriptionWidget,
           ],
         ),
       ),

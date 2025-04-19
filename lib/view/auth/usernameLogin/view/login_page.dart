@@ -8,39 +8,40 @@ import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final loginController = ref.watch(loginProvider);
-    final loginState = ref.read(loginProvider.notifier);
-    final saturnWidget = saturn();
-    final loginContainerWidget =
-        loginContainer(context, loginController, loginState);
-    final meteorsWidget = meteors();
+  Widget build(BuildContext context) {
     final viewInsets = MediaQuery.of(context).viewInsets.bottom;
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            meteorsWidget,
-            loginContainerWidget,
-            AnimatedOpacity(
-              duration: const Duration(milliseconds: 500),
-              opacity: viewInsets > 0 ? 0.3 : 1,
-              child: saturnWidget,
+    return Consumer(
+      builder: (context, ref, child) {
+        final loginController = ref.watch(loginProvider);
+        final loginState = ref.read(loginProvider.notifier);
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            body: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                meteors(),
+                loginContainer(context, loginController, loginState),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 500),
+                  opacity: viewInsets > 0 ? 0.3 : 1,
+                  child: saturn(),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
+  // *** SATRUN IMAGE WIDGET ***
   Hero saturn() {
     return Hero(
       tag: "saturn",
@@ -52,6 +53,7 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
+  // *** LOGIN CONTAINER ***
   Align loginContainer(
       BuildContext context, LoginForm loginController, LoginState loginState) {
     return Align(
@@ -140,6 +142,7 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
+  // *** METEOR ANIMATION WIDGET ***
   Hero meteors() {
     return Hero(
       tag: "meteor",

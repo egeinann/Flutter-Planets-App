@@ -8,14 +8,11 @@ import 'package:spaceandplanets_app/widgets/outlinedButton.dart';
 import 'package:spaceandplanets_app/widgets/snackbar.dart';
 import 'package:spaceandplanets_app/widgets/textFields/textField.dart';
 
-class ForgotPasswordPage extends ConsumerWidget {
+class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final forgotPasswordState = ref.read(forgotPasswordProvider.notifier);
-    final forgotPasswordController = ref.watch(forgotPasswordProvider);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: spaceAppBar(
@@ -29,8 +26,7 @@ class ForgotPasswordPage extends ConsumerWidget {
           children: [
             CustomOutlinedButton(
               onPressed: () {
-                gmailBottomSheet(
-                    context, forgotPasswordController, forgotPasswordState);
+                gmailBottomSheet(context);
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -54,104 +50,6 @@ class ForgotPasswordPage extends ConsumerWidget {
               onPressed: () {
                 SnackbarHelper.spaceShowErrorSnackbar(context,
                     message: "This method is not available yet!");
-                // CustomBottomSheet.show(
-                //   context: context,
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.start,
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Text(
-                //             "Your phone number",
-                //             style: Theme.of(context).textTheme.bodySmall,
-                //             textAlign: TextAlign.left,
-                //           ),
-                //           const SizedBox(height: 5),
-                //           SpacePhoneNumberTextField(
-                //             controller:
-                //                 forgotPasswordController.phoneNumberController,
-                //             onChanged: (value) =>
-                //                 forgotPasswordState.updatePhoneNumber(value),
-                //           ),
-                //           const SizedBox(height: 5),
-                //           Align(
-                //             alignment: Alignment.centerRight,
-                //             child: CustomOutlinedButton(
-                //               onPressed: () {
-                //                 if (forgotPasswordState
-                //                     .canVerifyWithPhoneNumber()) {
-                //                   SnackbarHelper.spaceShowSuccessSnackbar(
-                //                       context,
-                //                       message: "SMS code sent. Check!");
-                //                 } else {
-                //                   SnackbarHelper.spaceShowErrorSnackbar(context,
-                //                       message:
-                //                           "Your phone number is incorrect!");
-                //                 }
-                //               },
-                //               child: Text(
-                //                 "Send code",
-                //                 style: Theme.of(context).textTheme.bodyLarge,
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.start,
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Text(
-                //             "Enter the code",
-                //             style: Theme.of(context).textTheme.bodySmall,
-                //           ),
-                //           const SizedBox(height: 5),
-                //           FittedBox(
-                //             child: SpaceSmsTextField(
-                //               controller:
-                //                   forgotPasswordController.smsCodeController,
-                //               onChanged: (value) =>
-                //                   forgotPasswordState.updateSmsCode(value),
-                //             ),
-                //           ),
-                //           const SizedBox(height: 5),
-                //           Align(
-                //             alignment: Alignment.centerRight,
-                //             child: CustomOutlinedButton(
-                //               onPressed: () {
-                //                 if (forgotPasswordState.canVerifyWithSms()) {
-                //                   Navigator.pop(context);
-                //                   forgotPasswordState.clearForm();
-                //                   SnackbarHelper.spaceShowSuccessSnackbar(
-                //                       context,
-                //                       message: "Confirmed.");
-                //                   Future.delayed(
-                //                     const Duration(milliseconds: 500),
-                //                     () => Navigator.pushNamed(
-                //                         context, "/resetPasswordPage"),
-                //                   );
-                //                 } else {
-                //                   SnackbarHelper.spaceShowErrorSnackbar(context,
-                //                       message: "Validation is incorrect!");
-                //                 }
-                //               },
-                //               child: Text(
-                //                 "Check",
-                //                 style: Theme.of(context).textTheme.bodyLarge,
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // );
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -176,75 +74,78 @@ class ForgotPasswordPage extends ConsumerWidget {
   }
 
   // *** GMAIL GİRİŞİ ***
-  void gmailBottomSheet(
-      BuildContext context,
-      ForgotPasswordForm forgotPasswordController,
-      ForgotPasswordState forgotPasswordState) {
+  void gmailBottomSheet(BuildContext context) {
     return CustomBottomSheet.show(
       context: context,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Your email",
-            style: Theme.of(context).textTheme.bodySmall,
-            textAlign: TextAlign.left,
-          ),
-          const SizedBox(height: 5),
-          SpaceTextField(
-            controller: forgotPasswordController.emailController,
-            onChanged: (value) => forgotPasswordState.updateEmail(value),
-            hintText: "example@domain.com",
-          ),
-          const SizedBox(height: 5),
-          Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: forgotPasswordState.isButtonEnabled
-                    ? () {
-                        final email = forgotPasswordController
-                            .emailController.text
-                            .trim();
+      child: Consumer(
+        builder: (context, ref, child) {
+          final forgotPasswordState = ref.read(forgotPasswordProvider.notifier);
+          final forgotPasswordController = ref.watch(forgotPasswordProvider);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Your email",
+                style: Theme.of(context).textTheme.bodySmall,
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(height: 5),
+              SpaceTextField(
+                controller: forgotPasswordController.emailController,
+                onChanged: (value) => forgotPasswordState.updateEmail(value),
+                hintText: "example@domain.com",
+              ),
+              const SizedBox(height: 5),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: forgotPasswordState.isButtonEnabled
+                        ? () {
+                            final email = forgotPasswordController
+                                .emailController.text
+                                .trim();
 
-                        if (!forgotPasswordState.isValidEmail()) {
-                          SnackbarHelper.spaceShowErrorSnackbar(
-                            context,
-                            message: "Please enter a valid email!",
-                          );
-                          return;
-                        }
+                            if (!forgotPasswordState.isValidEmail()) {
+                              SnackbarHelper.spaceShowErrorSnackbar(
+                                context,
+                                message: "Please enter a valid email!",
+                              );
+                              return;
+                            }
 
-                        forgotPasswordState.resetPassword(
-                            email: email, context: context);
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  side:
-                      BorderSide(color: Theme.of(context).colorScheme.outline),
-                ),
-                child: Text(
-                  forgotPasswordState.isButtonEnabled
-                      ? "Send code"
-                      : "Wait ${forgotPasswordState.countdownSeconds}s",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: forgotPasswordState.isButtonEnabled
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Colors.grey,
-                      ),
-                ),
-              )),
-          Text(
-            "Enter your e-mail address registered in the system.",
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: Colors.red,
-                ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+                            forgotPasswordState.resetPassword(
+                                email: email, context: context);
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.outline),
+                    ),
+                    child: Text(
+                      forgotPasswordState.isButtonEnabled
+                          ? "Send code"
+                          : "Wait ${forgotPasswordState.countdownSeconds}s",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: forgotPasswordState.isButtonEnabled
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Colors.grey,
+                          ),
+                    ),
+                  )),
+              Text(
+                "Enter your e-mail address registered in the system.",
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Colors.red,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

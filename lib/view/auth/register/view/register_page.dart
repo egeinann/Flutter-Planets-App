@@ -14,122 +14,123 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        return GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: spaceAppBar(
-              context: context,
-              title: "REGISTER",
-              leadingIcon: SpaceIcons.back,
-            ),
-            body: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                backgroundPlanets(),
-                registerForm(context, ref),
-              ],
-            ),
-          ),
-        );
-      },
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: spaceAppBar(
+          context: context,
+          title: "REGISTER",
+          leadingIcon: SpaceIcons.back,
+        ),
+        body: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            backgroundPlanets(),
+            registerForm(context),
+          ],
+        ),
+      ),
     );
   }
 
   // *** REGISTER FORM ***
-  Widget registerForm(BuildContext context, WidgetRef ref) {
-    final registerController = ref.read(registerProvider.notifier);
-    final registerState = ref.watch(registerProvider);
-
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 200.w, end: 10.w),
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
-      builder: (context, leftPosition, child) {
-        return Positioned(
-          left: leftPosition,
-          top: 20.h,
-          child: child!,
-        );
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Personal information",
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(height: 5),
-              SpaceTextField(
-                maxLength: 15,
-                controller: registerState.nameController,
-                hintText: "Name",
-                onChanged: (value) => registerController.updateName(value),
-              ),
-              const SizedBox(height: 5),
-              SpaceTextField(
-                maxLength: 30,
-                controller: registerState.emailController,
-                hintText: "E-mail",
-                onChanged: (value) => registerController.updateEmail(value),
-              ),
-              const SizedBox(height: 5),
-              // SpacePhoneNumberTextField(
-              //   controller: registerState.phoneNumberController,
-              //   onChanged: (value) =>
-              //       registerController.updatePhoneNumber(value),
-              // ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget registerForm(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final registerController = ref.read(registerProvider.notifier);
+        final registerState = ref.watch(registerProvider);
+        return TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 200.w, end: 10.w),
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+          builder: (context, leftPosition, child) {
+            return Positioned(
+              left: leftPosition,
+              top: 20.h,
+              child: child!,
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text(
-                "Password",
-                style: Theme.of(context).textTheme.bodySmall,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Personal information",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 5),
+                  SpaceTextField(
+                    maxLength: 15,
+                    controller: registerState.nameController,
+                    hintText: "Name",
+                    onChanged: (value) => registerController.updateName(value),
+                  ),
+                  const SizedBox(height: 5),
+                  SpaceTextField(
+                    maxLength: 30,
+                    controller: registerState.emailController,
+                    hintText: "E-mail",
+                    onChanged: (value) => registerController.updateEmail(value),
+                  ),
+                  const SizedBox(height: 5),
+                  // SpacePhoneNumberTextField(
+                  //   controller: registerState.phoneNumberController,
+                  //   onChanged: (value) =>
+                  //       registerController.updatePhoneNumber(value),
+                  // ),
+                ],
               ),
-              const SizedBox(height: 5),
-              SpaceTextField(
-                controller: registerState.passwordController,
-                hintText: "Password",
-                isPassword: true,
-                onChanged: (value) => registerController.updatePassword(value),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Password",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 5),
+                  SpaceTextField(
+                    controller: registerState.passwordController,
+                    hintText: "Password",
+                    isPassword: true,
+                    onChanged: (value) =>
+                        registerController.updatePassword(value),
+                  ),
+                  const SizedBox(height: 5),
+                  SpaceTextField(
+                    controller: registerState.passwordAgainController,
+                    hintText: "Password again",
+                    isPassword: true,
+                    onChanged: (value) =>
+                        registerController.updatePasswordAgain(value),
+                  ),
+                ],
               ),
-              const SizedBox(height: 5),
-              SpaceTextField(
-                controller: registerState.passwordAgainController,
-                hintText: "Password again",
-                isPassword: true,
-                onChanged: (value) =>
-                    registerController.updatePasswordAgain(value),
+              const SizedBox(height: 20),
+              CustomOutlinedButton(
+                onPressed: () {
+                  final registerStateNotifier =
+                      ref.read(registerProvider.notifier);
+                  registerStateNotifier.submitRegistration(context);
+                },
+                child: Text(
+                  "Register",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          CustomOutlinedButton(
-            onPressed: () {
-              final registerStateNotifier = ref.read(registerProvider.notifier);
-              registerStateNotifier.submitRegistration(context);
-            },
-            child: Text(
-              "Register",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 

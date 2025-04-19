@@ -8,20 +8,10 @@ import 'package:spaceandplanets_app/utils/colors.dart';
 import 'package:spaceandplanets_app/utils/padding.dart';
 import 'package:spaceandplanets_app/widgets/meteorWidget/meteorView.dart';
 
-class OnboardingPage extends ConsumerWidget {
+class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Opaklık değerini dinle
-    final opacity = ref.watch(fadeInProvider);
-
-    // Sayfa yüklendiği anda animasyon başlasın
-    // Opaklık animasyonu için ekleme
-    Future.delayed(Duration.zero, () {
-      ref.read(fadeInProvider.notifier).fadeIn(); // Animasyonu başlat
-    });
-
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -31,37 +21,52 @@ class OnboardingPage extends ConsumerWidget {
             image: AssetImage("assets/backgrounds/space_background.png"),
             fit: BoxFit.fill,
           ),
-          Hero(
-            tag: "meteor",
-            child: Center(
-              child: MeteorWidget(
-                duration: const Duration(seconds: 3),
-                numberOfMeteors: 100,
-                child: Container(),
-              ),
-            ),
-          ),
-          Padding(
-            padding: SpacePadding.small.padding,
-            child: AnimatedOpacity(
-              duration: const Duration(seconds: 1),
-              opacity: opacity,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        topImage(context),
-                        titleAndDesc(context),
-                      ],
-                    ),
-                  ),
-                  bottomSlider(context),
-                ],
-              ),
-            ),
-          ),
+          meteors(),
+          buildWidgetsWithAnimation(),
         ],
+      ),
+    );
+  }
+
+  // *** ANIMASYONLU WIDGETLAR ***
+  Consumer buildWidgetsWithAnimation() {
+    return Consumer(
+      builder: (context, ref, child) {
+        final opacity = ref.watch(fadeInProvider);
+        return Padding(
+          padding: SpacePadding.small.padding,
+          child: AnimatedOpacity(
+            duration: const Duration(seconds: 1),
+            opacity: opacity,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      topImage(context),
+                      titleAndDesc(context),
+                    ],
+                  ),
+                ),
+                bottomSlider(context),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // *** METEOR ANİMASYONU ***
+  Hero meteors() {
+    return Hero(
+      tag: "meteor",
+      child: Center(
+        child: MeteorWidget(
+          duration: const Duration(seconds: 3),
+          numberOfMeteors: 100,
+          child: Container(),
+        ),
       ),
     );
   }

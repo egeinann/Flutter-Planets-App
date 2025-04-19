@@ -3,15 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class OpacityNotifier extends StateNotifier<double> {
-  OpacityNotifier() : super(0.0);
-  void setOpacity(double opacity) {
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      state = opacity;
-    });
+  OpacityNotifier() : super(0.0) {
+    _init();
   }
 
-  void fadeIn() {
-    state = 1.0;
+  void _init() async {
+    await Future.delayed(const Duration(milliseconds: 500)); // hafif gecikme
+    state = 1.0; // animasyon başlasın
+  }
+
+  void setOpacity(double value) {
+    state = value;
   }
 }
 

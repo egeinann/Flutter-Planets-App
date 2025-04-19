@@ -14,6 +14,10 @@ class PlanetPage extends StatelessWidget {
   final double featuresHeight = 100.h;
   @override
   Widget build(BuildContext context) {
+    final planetImageAnimatedWidget = planetImageAnimated();
+    final topAppBarWidget = topAppBar(context);
+    final featuresAnimatedWidget = featuresAnimated();
+    final longDescriptionWidget = longDescription(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -23,10 +27,10 @@ class PlanetPage extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            planetImageAnimated(),
-            topAppBar(context),
-            featuresAnimated(),
-            longDescription(context),
+            planetImageAnimatedWidget,
+            topAppBarWidget,
+            featuresAnimatedWidget,
+            longDescriptionWidget,
           ],
         ),
       ),
