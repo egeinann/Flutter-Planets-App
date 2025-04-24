@@ -1,16 +1,17 @@
-# spaceandplanets_app
+--- FIREBASE AUTHENTICATION PROJECT ---
 
-A new Flutter project.
+Kendimi geliştirmek adına Firebase Auth altyapısını ve riverpod durum yönetimi kütüphanesini kullanarak bir kullanıcı giriş sistemi oluşturdum.
 
-## Getting Started
+Projede yer alan özellikler:
+🔑E-mail & şifre ile giriş
+⚡Gmail ile hızlı giriş
+🔓Kayıt olma
+🔏Şifremi unuttum – şifre sıfırlama
+🔐Şifre değiştirme
+🛡️Giriş sonrası kalıcı oturum
 
-This project is a starting point for a Flutter application.
+🪐UI tarafında ise gezegenler ve yıldızları temel alan bir tasarım oluşturdum.
 
-A few resources to get you started if this is your first Flutter project:
+📦Riverpod ile durum yönetimini daha sade ve yönetilebilir hale getirerek uygulamanın yapısını güçlendirdim.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🌌Ayrıca TweenAnimation ve sayfa geçiş animasyonları üzerinde çalışarak, kullanıcı deneyimini zenginleştirmeye odaklandım.
