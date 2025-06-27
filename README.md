@@ -1,17 +1,18 @@
---- FIREBASE AUTHENTICATION PROJECT ---
+Bu proje, Firebase Authentication altyapısı kullanılarak geliştirilen bir kullanıcı giriş sistemi uygulamasıdır. Riverpod ile durum yönetimi sağlanmış, kullanıcı deneyimini artırmak adına özel animasyonlarla zenginleştirilmiştir.
 
-Kendimi geliştirmek adına Firebase Auth altyapısını ve riverpod durum yönetimi kütüphanesini kullanarak bir kullanıcı giriş sistemi oluşturdum.
+Özellikler
+- E-mail ve şifre ile giriş  
+- Gmail ile hızlı giriş  
+- Yeni kullanıcı kaydı  
+- Şifremi unuttum – şifre sıfırlama  
+- Şifre değiştirme  
+- Giriş sonrası kalıcı oturum desteği
 
-Projede yer alan özellikler:
-🔑E-mail & şifre ile giriş
-⚡Gmail ile hızlı giriş
-🔓Kayıt olma
-🔏Şifremi unuttum – şifre sıfırlama
-🔐Şifre değiştirme
-🛡️Giriş sonrası kalıcı oturum
+Kullanılan Teknolojiler
+- Flutter  
+- Firebase Authentication  
+- Riverpod (durum yönetimi)  
+- TweenAnimationBuilder  
+- Custom page transition animasyonları
 
-🪐UI tarafında ise gezegenler ve yıldızları temel alan bir tasarım oluşturdum.
-
-📦Riverpod ile durum yönetimini daha sade ve yönetilebilir hale getirerek uygulamanın yapısını güçlendirdim.
-
-🌌Ayrıca TweenAnimation ve sayfa geçiş animasyonları üzerinde çalışarak, kullanıcı deneyimini zenginleştirmeye odaklandım.
+Arayüz tasarımı, gezegenler ve yıldız teması üzerine kurulmuştur. Uygulama boyunca geçişlerde kullanılan animasyonlar ve renk teması ile kullanıcıya estetik ve akıcı bir deneyim sunulmuştur.
